@@ -1,0 +1,76 @@
+﻿
+@model web_Aqua.Context.User
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+    <!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y">
+
+<!-- ============================ COMPONENT REGISTER   ================================= -->
+	<div class="card mx-auto" style="max-width:520px; margin-top:40px;">
+      <article class="card-body">
+		<header class="mb-4"><h4 class="card-title">Đăng ký</h4></header>
+			@using (Html.BeginForm())
+			{
+
+
+				@Html.AntiForgeryToken()
+				<hr />
+				@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+					<div class="form-row">
+						<div class="col form-group">
+							@Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-10" ,placeholder="Họ"})
+							@Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+							@Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+						</div>
+						<div class="col form-group">
+							@Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-10" ,placeholder="Tên"})
+							@Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+							@Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+							</div>
+					</div>
+
+					<div class="form-group">
+						@Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-4" })
+					<div >
+							@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+							@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+						</div>
+					</div>
+					<div class="form-group">
+						@Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-4" })
+						<div>
+							@Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+							@Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+						</div>
+					</div>
+			    <div class="form-group">
+			        <button type="submit" class="btn btn-primary btn-block" value="Create"> Đăng ký  </button>
+			    </div> <!-- form-group// -->      
+			    <div class="form-group"> 
+		            <label class="custom-control custom-checkbox"> <input type="checkbox" class="custom-control-input" checked=""> <div class="custom-control-label"> Đồng ý các điều khoản</div> </label>
+		        </div> <!-- form-group end.// -->           
+			}
+		</article><!-- card-body.// -->
+    </div> <!-- card .// -->
+	
+	<p class="text-center mt-4">Bạn đã có tài khoản? <a href="~/Home/Login" class="btn btn-link">Đăng nhập ngay</a></p>
+    <br><br>
+<!-- ============================ COMPONENT REGISTER  END.// ================================= -->
+
+
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+
+}
+
+<div>
+    @Html.ActionLink("Back", "Index")
+

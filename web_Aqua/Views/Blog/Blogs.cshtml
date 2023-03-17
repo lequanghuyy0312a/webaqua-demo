@@ -1,0 +1,194 @@
+﻿
+
+@{
+	ViewData["Title"] = "Blogs";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y">
+	<div class="container">
+
+
+		<!-- ============================  FILTER TOP  ================================= -->
+		<div class="card mb-3">
+			<div class="card-body">
+				<ol class="breadcrumb float-left">
+					<li class="breadcrumb-item"><a href="#">Home</a></li>
+					<li class="breadcrumb-item"><a href="#">Tin tức</a></li>
+					<li class="breadcrumb-item active">Danh sách bài viết</li>
+				</ol>
+			</div> <!-- card-body .// -->
+		</div> <!-- card.// -->
+		<!-- ============================ FILTER TOP END.// ================================= -->
+
+
+		<div class="row">
+			<aside class="col-md-2">
+
+				<article class="filter-group">
+					<h6 class="title">
+						<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_1">Loại bài viết </a>
+					</h6>
+					<div class="filter-content collapse show" id="collapse_1" style="">
+						<div class="inner">
+							<ul class="list-menu">
+								<li><a href="#">Tất cả</a></li>
+								<li><a href="#">Góc vườn đẹp</a></li>
+								<li><a href="#">Kinh nghiệm </a></li>
+								<li><a href="#">Vật tư</a></li>
+								<li><a href="#">Tin quốc tế</a></li>
+							</ul>
+						</div> <!-- inner.// -->
+					</div>
+				</article> <!-- filter-group  .// -->
+				<article class="filter-group">
+					<h6 class="title">
+						<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_2"> Khu vực </a>
+					</h6>
+					<div class="filter-content collapse show" id="collapse_2">
+						<div class="inner">
+							<label class="custom-control custom-checkbox">
+								<input type="checkbox" checked="" class="custom-control-input">
+								<div class="custom-control-label">
+									Trong Nước
+									<b class="badge badge-pill badge-light float-right">120</b>
+								</div>
+							</label>
+							<label class="custom-control custom-checkbox">
+								<input type="checkbox" checked="" class="custom-control-input">
+								<div class="custom-control-label">
+									Quốc Tế
+									<b class="badge badge-pill badge-light float-right">15</b>
+								</div>
+							
+						</div> <!-- inner.// -->
+					</div>
+					</article>
+			</aside> <!-- col.// -->
+			<main class="col-md-10">
+
+
+				<header class="mb-3">
+					<div class="form-inline">
+						<strong class="mr-md-auto">32 Items found </strong>
+						<select class="mr-2 form-control">
+							<option>Hot</option>
+							<option>Mới nhất</option>
+							<option>Cũ nhất</option>
+							
+						</select>
+						<div class="btn-group">
+							<a href="page-listing-grid.html" class="btn btn-light" data-toggle="tooltip" title="List view">
+								<i class="fa fa-bars"></i>
+							</a>
+							<a href="page-listing-large.html" class="btn btn-light active" data-toggle="tooltip" title="Grid view">
+								<i class="fa fa-th"></i>
+							</a>
+						</div>
+					</div>
+				</header><!-- sect-heading -->
+
+
+				<article class="card card-product-list">
+					<div class="row no-gutters">
+						<aside class="col-md-3">
+							<a href="#" class="img-wrap">
+								<span class="badge badge-danger"> NEW </span>
+								<img src="~/images/items/1.jpg">
+							</a>
+						</aside> <!-- col.// -->
+						<div class="col-md">
+							<div class="info-main">
+								<a href="#" class="h5 title">Tin tức mới nhất về Aquaponic </a>
+								<div class="rating-wrap mb-2">
+									<ul class="rating-stars">
+										<li style="width:100%" class="stars-active">
+											<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+											<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+										</li>
+										<li>
+											<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+											<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+										</li>
+									</ul>
+									<div class="label-rating">9/10</div>
+								</div> <!-- rating-wrap.// -->
+
+								<p class="mb-3">
+									<span class="tag"> <i class="fa fa-check"></i> trong nước </span>
+									<span class="tag"> news </span>
+									<span class="tag"> vật giá </span>
+									<span class="tag"> doanh số </span>
+								</p>
+
+								<p>
+									Take it as demo specs, ipsum dolor sit amet, consectetuer adipiscing elit, Lorem ipsum dolor sit amet, consectetuer adipiscing elit, Ut wisi enim ad minim  sint occaecat cupidatat non
+									proident, sunt in culpa qui laborum....
+								</p>
+
+							</div> <!-- info-main.// -->
+						</div> <!-- col.// -->
+						
+					</div> <!-- row.// -->
+				</article> <!-- card-product .// -->
+
+
+
+
+
+				
+
+				<nav class="mb-4" aria-label="Page navigation sample">
+					<ul class="pagination">
+						<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+						<li class="page-item active"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item"><a class="page-link" href="#">4</a></li>
+						<li class="page-item"><a class="page-link" href="#">5</a></li>
+						<li class="page-item"><a class="page-link" href="#">Next</a></li>
+					</ul>
+				</nav>
+
+
+				<div class="box text-center">
+					<p>Did you find what you were looking for？</p>
+					<a href="" class="btn btn-light">Yes</a>
+					<a href="" class="btn btn-light">No</a>
+				</div>
+
+
+			</main> <!-- col.// -->
+
+		</div>
+
+	</div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+<!-- ========================= SECTION SUBSCRIBE  ========================= -->
+<section class="padding-y-lg bg-light border-top">
+	<div class="container">
+
+		<p class="pb-2 text-center">Delivering the latest product trends and industry news straight to your inbox</p>
+
+		<div class="row justify-content-md-center">
+			<div class="col-lg-4 col-sm-6">
+				<form class="form-row">
+					<div class="col-8">
+						<input class="form-control" placeholder="Your Email" type="email">
+					</div> <!-- col.// -->
+					<div class="col-4">
+						<button type="submit" class="btn btn-block btn-warning"> <i class="fa fa-envelope"></i> Subscribe </button>
+					</div> <!-- col.// -->
+				</form>
+				<small class="form-text">We’ll never share your email address with a third-party. </small>
+			</div> <!-- col-md-6.// -->
+		</div>
+
+
+	</div>
+</section>
+<!-- ========================= SECTION SUBSCRIBE END// ========================= -->
+
