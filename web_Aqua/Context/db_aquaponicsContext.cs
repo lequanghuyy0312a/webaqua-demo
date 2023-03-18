@@ -116,19 +116,13 @@ namespace web_Aqua.Context
 
                 entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
 
-                entity.Property(e => e.CreatedOnUtc).HasColumnType("datetime");
-
                 entity.Property(e => e.Name).HasMaxLength(100);
 
                 entity.Property(e => e.Price).HasMaxLength(100);
 
                 entity.Property(e => e.ShortDiscription).HasMaxLength(100);
 
-                entity.Property(e => e.Slug).HasMaxLength(100);
-
                 entity.Property(e => e.TypeId).HasColumnName("TypeID");
-
-                entity.Property(e => e.UpdatedOnUtc).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Brand)
                     .WithMany(p => p.Products)

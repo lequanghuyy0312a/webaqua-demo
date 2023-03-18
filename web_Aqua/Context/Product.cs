@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace web_Aqua.Context
 {
@@ -18,19 +19,17 @@ namespace web_Aqua.Context
         public string? FullDiscription { get; set; }
         public int? TypeId { get; set; }
         public int? BrandId { get; set; }
-        public string? Slug { get; set; }
-        public bool? Deleted { get; set; }
         public bool? ShowOnHomePage { get; set; }
         public int? DisplayOrder { get; set; }
-        public DateTime? CreatedOnUtc { get; set; }
-        public DateTime? UpdatedOnUtc { get; set; }
         public int? Quantity { get; set; }
         public string? Price { get; set; }
         public int? Inventory { get; set; }
-        public bool? Inside { get; set; }
 
         public virtual Brand? Brand { get; set; }
         public virtual Category? Category { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
+
+        [NotMapped]
+        public IFormFile ImageUpload { get; set; }  
     }
 }
