@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Newtonsoft.Json
+@inject IHttpContextAccessor HttpContextAccessor
+
+
+@{
+    var session = HttpContextAccessor.HttpContext.Session;
+    string jsoncart = session.GetString(web_Aqua.Controllers.CartController.CARTKEY);
+    if (jsoncart != null)
+    {
+        var cart = JsonConvert.DeserializeObject<List<CartModel>>(jsoncart);
+        <div class="nav-item">
+            <a href="~/Cart/Index" class="widget-view">
+                <div class="icon-area">
+                    <i class="fa fa-shopping-cart"></i>
+                    @if(cart.Count > 0)
+                    {
+                        <span class="notify">@cart.Count</span>
+                    }
+                </div>
+                <small class="text"> Giỏ hàng </small>
+            </a>
+        </div>
+    }
+        else 
+        {
+            <div class="nav-item">
+                <a href="~/Cart/Index" class="widget-view">
+                    <div class="icon-area">
+                        <i class="fa fa-shopping-cart"></i>
+                    </div>
+                    <small class="text"> Giỏ hàng </small>
+                </a>
+            </div>
+
+        }
+}
+

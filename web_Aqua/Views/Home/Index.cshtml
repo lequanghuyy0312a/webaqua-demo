@@ -1,10 +1,7 @@
 ﻿@model web_Aqua.Models.HomeModel
-
-
 @{
     ViewData["Title"] = "Index";
 }
-
 
 <div class="container">
 	<!-- ========================= SECTION MAIN  ========================= -->
@@ -14,20 +11,16 @@
 
 				<div class="row">
 					<aside class="col-lg col-md-3 flex-lg-grow-0">
-						<h6>Danh mục</h6>
+						<h6>Danh mục sản phẩm</h6>
 						<nav class="nav-home-aside">
 							<ul class="menu-category">
-
+							
 								@foreach(var item in Model.listCategory)
-								{
-									<li>
-										@Html.ActionLink(item.Name, "ProductCategory", "Category", new {ID = item.CategoryId},null)
-									</li>
+								{								
+									<li> <a asp-action="Index" asp-controller="Category" asp-route-id="@item.CategoryId"> @item.Name </a></li>																		
 								}
-								
-						
-							</ul>
-						</nav>
+								</ul>
+							</nav>					
 					</aside> <!-- col.// -->
 					<div class="col-md-9 col-xl-7 col-lg-7">
 
@@ -40,13 +33,14 @@
 							</ol>
 							<div class="carousel-inner">
 								<div class="carousel-item active">
-									<img src="~/images/banners/slide1.jpg" alt="First slide">
+									<img style="height:500px" src="~/images/banners/banner5.jpg" alt="First slide">
+								</div>
+
+								<div class="carousel-item">
+									<img style="height:500px" src="~/images/banners/banner2.jpg" alt="Third slide">
 								</div>
 								<div class="carousel-item">
-									<img src="~/images/banners/slide2.jpg" alt="Second slide">
-								</div>
-								<div class="carousel-item">
-									<img src="~/images/banners/slide3.jpg" alt="Third slide">
+									<img style="height:500px" src="~/images/banners/banner4.jpg" alt="Third slide">
 								</div>
 							</div>
 							<a class="carousel-control-prev" href="#carousel1_indicator" role="button" data-slide="prev">
@@ -63,22 +57,21 @@
 					</div> <!-- col.// -->
 					<div class="col-md d-none d-lg-block flex-grow-1">
 						<aside class="special-home-right">
-							<h6 class="bg-blue text-center text-white mb-0 p-2">Phổ biến</h6>
-							@foreach (var item in Model.listCategory.Where(n=>n.ShowOnHomePage==true).Take(3))
+							<h6 class="bg-green text-center text-white mb-0 p-2">Phổ biến</h6>
+							@foreach (var item in Model.listCategory.Where(n=>n.ShowOnHomePage==true).Take(4))
 							{
-								<div class="card-banner border-bottom">
+								<div class="py-3 card-banner border-bottom">
 									<div class="py-3" style="width:80%">
 										<h6 class="card-title">@item.Name</h6>
-										<a href="#" class="btn btn-secondary btn-sm"> Xem ngay </a>
+										<a href="~/Category/Index/@item.CategoryId" class="btn btn-success btn-sm"> Xem ngay </a>
 									</div>
-									<img src="~/images/items/@item.Avatar" height="80" class="img-bg">
+									<img src="~/images/categories/@item.Avatar" width="130px" height="100px" class="img-bg">
 
 								</div>
 							}
 
 
-							
-
+				
 						</aside>
 					</div> <!-- col.// -->
 				</div> <!-- row.// -->
@@ -94,18 +87,20 @@
 			<div class="col-heading content-body">
 				<header class="section-heading">
 					<h3 class="section-title">Giá sốc</h3>
-					<p>Hygiene equipments</p>
+					<p>Áp dụng cho thành viên mới</p>
+					<div class="timer">
+						<div> <span class="num">29</span> <small>Days</small></div>
+						<div> <span class="num">23</span> <small>Hours</small></div>
+						<div> <span class="num">57</span> <small>Min</small></div>
+						<div> <span class="num">02</span> <small>Sec</small></div>
+					</div>
+				
 				</header><!-- sect-heading -->
-				<div class="timer">
-					<div> <span class="num">04</span> <small>Days</small></div>
-					<div> <span class="num">12</span> <small>Hours</small></div>
-					<div> <span class="num">58</span> <small>Min</small></div>
-					<div> <span class="num">02</span> <small>Sec</small></div>
-				</div>
+
 			</div> <!-- col.// -->
 			<div class="row no-gutters items-wrap">
 
-				@foreach (var item in Model.listProduct.Where(n=>n.TypeId==1).Take(4))
+				@foreach (var item in Model.listProduct.Where(n => n.Recommend == false).Take(4))
 				{
 
 					<div class="col-md col-6">
@@ -115,7 +110,7 @@
 								<img src="~/images/items/@item.Avatar">
 							</a>
 							<div class="text-wrap p-3">
-								<a href="#" class="title">@item.Name</a>
+								<a href="~/Product/Detail/@item.ProductId" class="title">@item.Name</a>
 								<span class="badge badge-danger"> -20% </span>
 							</div>
 						</figure>
@@ -128,6 +123,40 @@
 
 	</section>
 	<!-- =============== SECTION DEAL // END =============== -->
+
+
+		<!-- =============== Đề xuất =============== -->
+	<section class="padding-bottom-sm">
+
+		<header class="section-heading heading-line">
+			<h4 class="title-section text-uppercase">Sản phẩm đề xuất</h4>
+		</header>
+
+		<div class="row row-sm ">
+			<div class="row row-sm">
+				@try
+				{
+					foreach (var item in Model.listProduct.Where(n => n.Recommend == true).Take(6))
+					{
+						<div class="col-xl-2 col-lg-3 col-md-4 col-6" style="width:239px">
+							
+							<div class="card card-sm card-product-grid" >
+								<a href=" @Url.Action("Detail", "Product", new{ID=item.ProductId})" class="img-wrap"> <img src="~/images/items/@item.Avatar"> </a>
+								<figcaption class="info-wrap" >
+									<a href="@Url.Action("Detail", "Product", new{ID=item.ProductId})" class="title">@item.Name</a>
+									<div class="price mt-1">@item.Price </div> <!-- price-wrap.// -->
+								</figcaption>
+							</div>
+						</div> <!-- col.// -->
+					}
+				}
+				catch { }
+			</div> <!-- row.// -->
+
+		</div> <!-- row.// -->
+	</section>
+	<!-- =============== Đề xuất .//END =============== -->
+
 	<!-- =============== SECTION 1 =============== -->
 	<section class="padding-bottom">
 		<header class="section-heading heading-line">
@@ -139,22 +168,25 @@
 				<div class="col-md-3">
 
 					<div class="home-category-banner bg-light-orange">
-						<h5 class="title">Best trending clothes only for summer</h5>
-						<p>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-						<a href="#" class="btn btn-outline-primary rounded-pill">Xem ngay</a>
-						<img src="~/images/items/2.jpg" class="img-bg">
+						<h5 class="title">Vật tư dùng để xây xựng nhà lưới, nhà màng.</h5>
+						<p> Vật liệu tốt nhất được nhập từ nhiều quốc gia phù hợp với khí hậu Việt Nam </p>
+						<a href=" @Url.Action("Index", "Category")" class="btn btn-outline-success rounded-pill">
+							Xem ngay</a>
+		@*				<img src="~/images/nhaluoi.jpg" class="img-bg">*@
 					</div>
 
 				</div> <!-- col.// -->
 				<div class="col-md-9">
 					<ul class="row no-gutters bordered-cols">
-						@foreach (var item in Model.listCategory.Where(n => n.Inside == true))
+						@foreach (var item in Model.listCategory.Where(n => n.Inside != true))
 						{
 						<li class="col-6 col-lg-3 col-md-4">
-								<a href=" @Url.Action("ProductCategory", "Category", new{ID=item.CategoryId})" class="item">
+								<a href=" @Url.Action("Index", "Category", new{ID=item.CategoryId})" class="item">
 								<div class="card-body">
 									<h6 class="title">@item.Name</h6>
-									<img class="img-sm float-right" src="~/images/items/@item.Avatar">
+									<img  style="width:130px; height:130px;" 
+										  class="img-sm float-right" 
+										  src="~/images/categories/@item.Avatar">
 									<p class="text-muted"><i class="fa fa-map-marker-alt"></i> @item.CategoryId</p>
 								</div>
 							</a>
@@ -178,23 +210,25 @@
 				<div class="col-md-3">
 
 					<div class="home-category-banner bg-light-orange">
-						<h5 class="title">Machinery items for manufacturers</h5>
-						<p>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-						<a href="#" class="btn btn-outline-primary rounded-pill">Xem ngay</a>
-						<img src="~/images/items/14.jpg" class="img-bg">
+						<h5 class="title">Các sản phẩm liên quan đến cây trồng </h5>
+						<p>Hạt giống, tank chứa nước, timer hẹn giờ, giá thể,... Được nhập từ nhiều khu vực cũng như được sản xuất tại Việt Nam. Đảm bảo chất lượng cao, giá thành tốt. </p>
+						<a href=" @Url.Action("Index", "Category")" class="btn btn-outline-success rounded-pill">Xem ngay</a>
+				@*		<img src="~/images/caytrong.jpg" class="img-bg">*@
 					</div>
 
 				</div> <!-- col.// -->
 				<div class="col-md-9">
 					<ul class="row no-gutters bordered-cols">
-						@foreach (var item in Model.listCategory.Where(n => n.Inside != true))
+						@foreach (var item in Model.listCategory.Where(n => n.Inside == true))
 						{
 							<li class="col-6 col-lg-3 col-md-4">
-								<a href=" @Url.Action("ProductCategory", "Category", new{ID=item.CategoryId})" class="item">
+								<a href=" @Url.Action("Index", "Category", new{ID=item.CategoryId})" class="item">
 
 									<div class="card-body">
 										<h6 class="title">@item.Name  </h6>
-										<img class="img-sm float-right" src="~/images/items/@item.Avatar">
+										<img style="width:130px; height:130px;" 
+											class="img-sm float-right" 
+											src="~/images/categories/@item.Avatar">
 										<p class="text-muted"><i class="fa fa-map-marker-alt"></i> @item.CategoryId</p>
 									</div>
 								</a>
@@ -207,138 +241,15 @@
 		</div> <!-- card.// -->
 	</section>
 	<!-- =============== SECTION 2 END =============== -->
-	<!-- =============== SECTION REQUEST =============== -->
+	
 
-	<section class="padding-bottom">
-
-		<header class="section-heading heading-line">
-			<h4 class="title-section text-uppercase">Request for Quotation</h4>
-		</header>
-
-		<div class="row">
-			<div class="col-md-8">
-				<div class="card-banner banner-quote overlay-gradient" style="background-image: url('~/images/banners/banner9.jpg');">
-					<div class="card-img-overlay white">
-						<h3 class="card-title">An easy way to send request to suppliers</h3>
-						<p class="card-text" style="max-width: 400px">
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt.
-						</p>
-						<a href="" class="btn btn-primary rounded-pill">Learn more</a>
-					</div>
-				</div>
-			</div> <!-- col // -->
-			<div class="col-md-4">
-
-				<div class="card card-body">
-					<h4 class="title py-3">One Request, Multiple Quotes</h4>
-					<form>
-						<div class="form-group">
-							<input class="form-control" name="" placeholder="What are you looking for?" type="text">
-						</div>
-						<div class="form-group">
-							<div class="input-group">
-								<input class="form-control" placeholder="Quantity" name="" type="text">
-
-								<select class="custom-select form-control">
-									<option>Pieces</option>
-									<option>Litres</option>
-									<option>Tons</option>
-									<option>Gramms</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group text-muted">
-							<p>Select template type:</p>
-							<label class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox" value="option1">
-								<div class="form-check-label">Request price</div>
-							</label>
-							<label class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox" value="option2">
-								<div class="form-check-label">Request a sample</div>
-							</label>
-						</div>
-						<div class="form-group">
-							<button class="btn btn-warning">Request for quote</button>
-						</div>
-					</form>
-				</div>
-
-			</div> <!-- col // -->
-		</div> <!-- row // -->
-	</section>
-
-	<!-- =============== SECTION REQUEST .//END =============== -->
-	<!-- =============== SECTION ITEMS =============== -->
-	<section class="padding-bottom-sm">
-
-		<header class="section-heading heading-line">
-			<h4 class="title-section text-uppercase">Sản phẩm đề xuất</h4>
-		</header>
-
-		<div class="row row-sm">
-			<div class="row row-sm">
-				@foreach (var item in Model.listProduct.Where(n=>n.TypeId==2).Take(12))
-				{
-					<div class="col-xl-2 col-lg-3 col-md-4 col-6">
-						<div href="#" class="card card-sm card-product-grid">
-							<a href=" @Url.Action("Detail", "Product", new{ID=item.ProductId})" class="img-wrap"> <img src="~/images/items/@item.Avatar"> </a>
-							<figcaption class="info-wrap">
-								<a href="#" class="title">@item.Name</a>
-								<div class="price mt-1">@item.Price </div> <!-- price-wrap.// -->
-							</figcaption>
-						</div>
-					</div> <!-- col.// -->
-				}
-		</div> <!-- row.// -->
-	</section>
-	<!-- =============== SECTION ITEMS .//END =============== -->
 	<!-- =============== SECTION SERVICES =============== -->
 	<section class="padding-bottom">
 
 		<header class="section-heading heading-line">
-			<h4 class="title-section text-uppercase">Trade services</h4>
+			<h4 class="title-section text-uppercase">Một số bài viết</h4>
 		</header>
-
-		<div class="row">
-			<div class="col-md-3 col-sm-6">
-				<article class="card card-post">
-					<img src="~/images/posts/1.jpg" class="card-img-top">
-					<div class="card-body">
-						<h6 class="title">Trade Assurance</h6>
-						<p class="small text-uppercase text-muted">Order protection</p>
-					</div>
-				</article> <!-- card.// -->
-			</div> <!-- col.// -->
-			<div class="col-md-3 col-sm-6">
-				<article class="card card-post">
-					<img src="~/images/posts/2.jpg" class="card-img-top">
-					<div class="card-body">
-						<h6 class="title">Pay anytime</h6>
-						<p class="small text-uppercase text-muted">Finance solution</p>
-					</div>
-				</article> <!-- card.// -->
-			</div> <!-- col.// -->
-			<div class="col-md-3 col-sm-6">
-				<article class="card card-post">
-					<img src="~/images/posts/3.jpg" class="card-img-top">
-					<div class="card-body">
-						<h6 class="title">Inspection solution</h6>
-						<p class="small text-uppercase text-muted">Easy Inspection</p>
-					</div>
-				</article> <!-- card.// -->
-			</div> <!-- col.// -->
-			<div class="col-md-3 col-sm-6">
-				<article class="card card-post">
-					<img src="~/images/posts/4.jpg" class="card-img-top">
-					<div class="card-body">
-						<h6 class="title">Ocean and Air Shipping</h6>
-						<p class="small text-uppercase text-muted">Logistic services</p>
-					</div>
-				</article> <!-- card.// -->
-			</div> <!-- col.// -->
-		</div> <!-- row.// -->
+		@await Html.PartialAsync("_ProductBottomPartial")
 
 	</section>
 	<!-- =============== SECTION SERVICES .//END =============== -->
@@ -346,7 +257,7 @@
 	<section class="padding-bottom">
 
 		<header class="section-heading heading-line">
-			<h4 class="title-section text-uppercase">Choose region</h4>
+			<h4 class="title-section text-uppercase">Nhập khẩu</h4>
 		</header>
 
 		<ul class="row mt-4">
@@ -358,37 +269,18 @@
 			<li class="col-md col-6"><a href="#" class="icontext"> <img class="icon-flag-sm" src="~/images/icons/flags/GB.png"> <span>England</span> </a></li>
 			<li class="col-md col-6"><a href="#" class="icontext"> <img class="icon-flag-sm" src="~/images/icons/flags/TR.png"> <span>Turkey</span> </a></li>
 			<li class="col-md col-6"><a href="#" class="icontext"> <img class="icon-flag-sm" src="~/images/icons/flags/UZ.png"> <span>Uzbekistan</span> </a></li>
-			<li class="col-md col-6"><a href="#" class="icontext"> <i class="mr-3 fa fa-ellipsis-h"></i> <span>More regions</span> </a></li>
+
 		</ul>
 	</section>
 	<!-- =============== SECTION REGION .//END =============== -->
 
-	<article class="my-4">
-		<img src="~/images/banners/ad-sm.png" class="w-100">
+	<article class="my-4 text-center">
+        
+	
+
 	</article>
 </div>
 <!-- container end.// -->
 <!-- ========================= SECTION SUBSCRIBE  ========================= -->
-<section class="section-subscribe padding-y-lg">
-	<div class="container">
-
-		<p class="pb-2 text-center text-white">Delivering the latest product trends and industry news straight to your inbox</p>
-
-		<div class="row justify-content-md-center">
-			<div class="col-lg-5 col-md-6">
-				<form class="form-row">
-					<div class="col-md-8 col-7">
-						<input class="form-control border-0" placeholder="Your Email" type="email">
-					</div> <!-- col.// -->
-					<div class="col-md-4 col-5">
-						<button type="submit" class="btn btn-block btn-warning"> <i class="fa fa-envelope"></i> Subscribe </button>
-					</div> <!-- col.// -->
-				</form>
-				<small class="form-text text-white-50">We’ll never share your email address with a third-party. </small>
-			</div> <!-- col-md-6.// -->
-		</div>
-
-
-	</div>
-</section>
+<
 <!-- ========================= SECTION SUBSCRIBE END// ========================= -->

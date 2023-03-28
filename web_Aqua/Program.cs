@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using web_Aqua.Context;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,10 +16,12 @@ builder.Services.AddSession(options =>
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<db_aquaponicsContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("db_aquaponics")))  ;
+builder.Services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(option =>
 {
+    option.Cookie.Name = "cart";
     option.IdleTimeout = TimeSpan.FromMinutes(120);
 });
 
@@ -43,7 +47,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
       name: "areas",
-      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+      pattern: "{area:exists}/{controller=Product}/{action=Index}/{id?}"
     );
     endpoints.MapControllerRoute(
 		name: "default",

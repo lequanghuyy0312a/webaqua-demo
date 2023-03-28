@@ -1,146 +1,220 @@
-﻿@model IEnumerable<web_Aqua.Context.Product>
+﻿@using X.PagedList;
+@using X.PagedList.Mvc;
+@using X.PagedList.Mvc.Core;
+
+@model X.PagedList.IPagedList<web_Aqua.Context.Product>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
-
 }
-@*@if (!string.IsNullOrWhiteSpace(@successMessage))
-{
-    <div class="alert alert-success">
-        <b>Thành công: </b> @successMessage
-        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close" ></button>
-    </div>
-}
-else if (!string.IsNullOrWhiteSpace(@errorMessage))
-{
-    <div class="alert alert-danger">
-        <b>Thất bại: </b> @errorMessage
-        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}*@
 
-<div>
-    <a>  <h1>Danh sách sản phẩm</h1></a> 
-    <hr color="green" />
-    <p>
-        <a href="~/Admin/Product/Create"> <h6>Thêm sản phẩm mới</h6></a>
-    </p>
+
+@*Tittle*@
+ <div id="headings">
+    <h2 id="title">Danh sách sản phẩm</h2>
+    <span id="hr"></span>
 </div>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Avatar)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ShortDiscription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FullDiscription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TypeId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BrandId)
-            </th>
+@*Search*@
 
 
-            <th>
-                @Html.DisplayNameFor(model => model.ShowOnHomePage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DisplayOrder)
-            </th>
 
 
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Inventory)
-            </th>
+@*Paging*@
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-            @try
+
+    <form method="get" enctype="multipart/form-data" asp-controller="Product" asp-action="Index" >
+        <div style="text-align: center;" class="d-block ml-auto mr-auto">
+            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new {@class=" h5 border border-success rounded <em>" , placeholder = "Nhập tên sản phẩm" })
+            <input class="btn btn-link text-success <strong> " type="submit" value="Tìm kiếm" />
+        </div>
+        <div class="d-flex">
+            <div class="py-3">
+                <a class="btn btn-secondary" asp-action="Index" asp-controller="Product">
+                    <i class="fas fa-sync"></i>
+                </a>
+
+            </div>
+            <div class="ml-1">
+             <strong class="align-text-bottom" id="countrow"> @ViewBag.listProductCount sản phẩm </strong>           
+            </div>
+
+            <div class="pagination ml-auto py-2">
+                @Html.PagedListPager(Model, page=>Url.Action("Index","Product", new {page=page}))
+            </div>
+        </div>
+      </form>
+    
+        
+            
+<div class="justify-content-center">
+    @*Table*@
+    <table id="casti_male" class="table  table-hover" style="overflow:hidden; white-space: nowrap; ">
+        <thead>
+            <tr style="text-align:center">
+                <th>
+                     @Html.DisplayNameFor(model => model.FirstOrDefault().Avatar)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().ProductId)
+                    
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
+                 
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().CategoryId)
+                    
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().ShortDescription)
+                    
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().BrandId)
+                    
+                </th>
+                
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Quantity)
+                    
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Price)
+                    
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Inventory)
+                    
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().ShowOnHomePage)
+
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Recommend)
+                    
+                </th>
+                <th class="text-center" >
+                    <a style="width:100px; font-size:16px;" asp-action="AddOrEdit" asp-controller="Product" class="btn btn-primary btn-lg">
+                        <i class="far fa-plus-square"></i>   Thêm
+                        </a>
+
+
+                </th>
+                
+        </thead>
+        <tbody    >
+
+            @foreach (var item in Model)
             {
-                <tr>
+                <tr >
+                    <td style=" text-align:center;">
+                        <div>
+                            <img class="zoom border border-dark"
+                                 style="width:90px;  height:80px;"
+                             src="~/images/items/@item.Avatar"
+                             alt="ảnh sản phẩm">  </div>
+                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ProductId)
                     </td>
-                    <td>
+                    <td id="short">
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
+
                     <td>
-                        @Html.DisplayFor(modelItem => item.Avatar)
+                      @*  @Html.DropDownListFor(modelItem=>item.CategoryId, ViewBag.listCategory as SelectList, new {@class = "form-control", @disabled = "disabled"})*@
+                       <strong>
+                        @Html.DisplayFor(modelItem => item.Category.Name)
+                       </strong> 
+
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CategoryId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ShortDiscription)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FullDiscription)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TypeId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BrandId)
+                    <td id="short" style="max-width:250px">
+                            @Html.DisplayFor(modelItem => item.ShortDescription)
                     </td>
 
                     <td>
-                        @Html.DisplayFor(modelItem => item.ShowOnHomePage)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DisplayOrder)
+                       <strong>
+                           @Html.DisplayFor(modelItem => item.Brand.Company)
+                       </strong> 
+
+                       @* @Html.DropDownListFor(modelItem=>item.BrandId, ViewBag.listBrand as SelectList, new {@class = "form-control", @disabled = "disabled"} )*@
                     </td>
 
+                        
+                    <td class="text-right">
+                            @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td class="text-right">
+                            @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td class="text-right">
+                            @Html.DisplayFor(modelItem => item.Inventory)
+                    </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Quantity)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Inventory)
-                    </td>
-
-                    <td>
-                      @*  <a href="~/Admin/Product/Edit" new { id=item.ProductId }>Sửa</a>
-                             <a href="~/Admin/Product/Edit" new { id=item.ProductId }>Xem</a>
-                              <a href="~/Admin/Product/Edit" new { id=item.ProductId }>Xoá</a>*@
-                       @* @Html.ActionLink("Edit", "Edit", new {  id=item.ProductId  })
-                        @Html.ActionLink("Details", "Details", new {  id=item.ProductId })
-                        @Html.ActionLink("Delete", "Delete", new {  id=item.ProductId  })*@
-                        @Html.ActionLink( "Sửa","Edit", new {  id=item.ProductId  })
-                        @Html.ActionLink( "Xem","Details", new {  id=item.ProductId  })
-                        @Html.ActionLink( "Xoá", "Delete",new {  id=item.ProductId  })
+                    @{
+                        bool? hienThiweb = item.ShowOnHomePage;
+                        if (hienThiweb == true)
+                        {
+                            <td>  Có </td>
+                        }
+                        else if (hienThiweb == false)
+                        {
+                            <td> Không </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                     }
+                        @{
+                            bool? recommend = item.Recommend;
+                            if (recommend == false)
+                            {
+                            <td>  Đề xuất </td>
+                            }
+                            else if (recommend == true)
+                            {
+                            <td> Giảm giá sốc </td>
+                            }
+                            else
+                            {
+                            <td></td>
+                            }
+                        }
+                    <td style=" text-align: center;">
+                      
+                        <form asp-route-id="@item.ProductId" asp-action="Delete">
+                            <div class="btn-group btn-group-sm">
+                                <a style="width:30px" asp-route-id="@item.ProductId" asp-action="Details" asp-controller="Product" class="btn btn-sm btn-info">
+                                    <i class="fas fa-search"></i>
+                                </a>
+                                <a asp-route-id="@item.ProductId" asp-controller="Product" asp-action="AddOrEdit" class="btn btn-sm btn-warning mx-1">
+                                    <i class="far fa-edit"></i>
+                                </a>
+                               @* xoá sản phẩm không dùng view Delete*@
+                                <button type="submit" class="btn btn-sm btn-danger" 
+                                    onclick="return confirm('Bạn có muốn xoá sản phẩm [ @item.CategoryId - @item.Name ] ?')">
+                                    <i class="fas fa-trash"></i>
+                                 </button>
+                            </div>
+                         </form>
 
                     </td>
                 </tr>
             }
-            catch { }
-        }
-    </tbody>
-</table>
+        </tbody>
+
+    </table>
+    @*Bottom Paging*@
+    <div class="pagination float-right" >
+        @Html.PagedListPager(Model, page=>Url.Action("Index","Product", new {page=page}))
+    </div>
+</div>
+
+
+

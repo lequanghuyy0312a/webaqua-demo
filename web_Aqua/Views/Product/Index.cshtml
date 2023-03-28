@@ -1,0 +1,113 @@
+﻿@model web_Aqua.Models.HomeModel
+@{
+	ViewData["Title"] = "Product";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y">
+	<div class="container">
+		<!-- ============================  FILTER TOP  ================================= -->
+		<div class="card mb-3">
+			<div class="card-body">
+				<div class="row">
+					<nav class="col-md">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="~/Home/Index">Home</a></li>
+							<li class="breadcrumb-item active" aria-current="page">Danh sách sản phẩm</li>
+						</ol>
+					</nav> <!-- col.// -->
+				</div> <!-- row.// -->
+				<hr>
+				<div class="row">
+					
+					<div class="col-md-12">
+						<ul class="list-inline">
+							<li class="list-inline-item mr-3 ">
+								<a href="~/Product/Index"> <strong> Tất cả sản phẩm  </strong></a>
+								</li>							
+							<li class="list-inline-item mr-3 dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Loại sản phẩm </a>
+								<div class="dropdown-menu" style="max-width:400px;">
+
+									@foreach (var item in Model.listCategory)
+									{
+										<label class="form-check">
+											<a href="~/Product/Index/@item.CategoryId" class="dropdown-item"> @item.Name </a>
+										</label>
+									}
+								</div> <!-- dropdown-menu.// -->
+							</li>
+
+						
+						</ul>
+					</div> <!-- col.// -->
+				</div> <!-- row.// -->
+			</div> <!-- card-body .// -->
+		</div> <!-- card.// -->
+		<!-- ============================ FILTER TOP END.// ================================= -->
+
+		<header class="mb-3">
+			<div class="form-inline ml-1">
+				<strong class="mr-md-auto"> @ViewBag.CountProduct sản phẩm  |  @ViewBag.categoryName </strong>
+				
+			</div>
+		</header><!-- sect-heading -->
+		
+		<div class="row">
+		@foreach(var item in Model.listProductFull)
+		{
+                <div class="col-3">
+					<figure class="card card-product-grid">
+						<div class="img-wrap">
+							<span class="badge badge-danger"> NEW </span>
+							<a href="~/Product/Detail/@item.ProductId"> <img src="~/images/items/@item.Avatar"> </a>
+							
+						</div> <!-- img-wrap.// -->
+						<figcaption class="info-wrap">
+							<a href="~/Product/Detail/@item.ProductId" class="title mb-2"> <strong class="h5"> @item.Name </strong></a>
+							<div class="price-wrap">
+								<span class="price">@item.Price</span>
+								<small class="text-muted">/mỗi sản phẩm</small>
+							</div> <!-- price-wrap.// -->
+
+							<p class="mb-2">Số lượng: @item.Inventory</p>
+
+							<p class="text-muted ">@item.Brand.Company</p>
+
+							<hr>
+							
+							<p class="mb-3 text-center">
+								<span class="tag"> <i class="fa fa-check"></i> Còn</span>
+								<span class="tag"> 6 tháng </span>
+								<span class="tag"> @item.Brand.Nation </span>
+								@if(item.Category.Inside == true)
+								{
+									<span class="tag">Cây trồng</span>
+								}
+								else
+								{
+									<span class="tag"> Nhà lưới</span>
+								}
+
+							</p>
+							<div class="text-center ">
+
+								<a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.ProductId"
+									class="btn btn-outline-primary">
+									<i class="fas fa-shopping-cart"></i>
+									Thêm giỏ hàng
+								</a>
+
+							</div>
+							
+						</figcaption>
+					</figure>
+				</div>			
+		}
+		</div> <!-- row end.// -->
+
+	
+
+	</div> <!-- container .//  -->
+
+<!-- ========================= SECTION SUBSCRIBE END// ========================= -->

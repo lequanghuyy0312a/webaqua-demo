@@ -1,19 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace web_Aqua.Context
 {
     public partial class Order
     {
-        public int OrderId { get; set; }
-        public string? Name { get; set; }
-        public int? ProductId { get; set; }
-        public int? UserId { get; set; }
-        public double? TotalPrice { get; set; }
-        public int? Status { get; set; }
-        public DateTime? CreatedOnUtc { get; set; }
+        public Order()
+        {
+            OrderDetails = new HashSet<OrderDetail>();
+        }
 
-        public virtual Product? Product { get; set; }
+
+ 
+        [DisplayName("ID")]
+        public int OrderId { get; set; }
+        [DisplayName("Nội dung")]
+        public string? Name { get; set; }
+        [DisplayName("Sản Phẩm")]
+        public int? ProductId { get; set; }
+
+
+        [DisplayName("Người mua")]
+        public int? UserId { get; set; }
+
+        [DisplayName("Trạng thái")]
+        public int? Status { get; set; }
+        [DisplayName("Ngày tạo")]
+        public DateTime? CreatedOnUtc { get; set; }
         public virtual User? User { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

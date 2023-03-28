@@ -8,22 +8,20 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Session;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace web_Aqua.Controllers
 {
-   
+
     public class HomeController : Controller
     {
 
 
-        db_aquaponicsContext objdb_aquaponicsContext = new db_aquaponicsContext();
+        db_aquaponicsContext db_Context = new db_aquaponicsContext();
 
-       // private readonly ILogger<HomeController> _logger;
+
         private readonly IHttpContextAccessor _contextAccessor;
-        //public HomeController(ILogger<HomeController> logger)
-        //{
-        //    _logger = logger;
-        //}
 
         public HomeController(IHttpContextAccessor httpContextAccessor)
         {
@@ -35,19 +33,20 @@ namespace web_Aqua.Controllers
         public IActionResult Index(int ID)
         {
             HomeModel objHomeModel = new HomeModel();
-			objHomeModel.listCategory = objdb_aquaponicsContext.Categories.ToList();
+            objHomeModel.listCategory = db_Context.Categories.OrderBy(n => n.Name).ToList();
 
-			objHomeModel.listProductCategory = objdb_aquaponicsContext.Products.Where(n => n.CategoryId == ID).ToList();
+            objHomeModel.listProductCategory = db_Context.Products.Where(n => n.CategoryId == ID).ToList();
 
-			objHomeModel.listProduct = objdb_aquaponicsContext.Products.ToList();
+            objHomeModel.listProduct = db_Context.Products.ToList();
+			objHomeModel.listBlog = db_Context.Blogs.Include(n => n.Category).Include(u => u.User).ToList();
 
 			return View(objHomeModel);
-		}
+        }
 
 
         [HttpGet]
 
-     //   [Route("Register")]
+        //   [Route("Register")]
 
         public IActionResult Register()
         {
@@ -59,26 +58,25 @@ namespace web_Aqua.Controllers
         {
             if (ModelState.IsValid)
             {
-                var check = objdb_aquaponicsContext.Users.FirstOrDefault(s => s.Email == _user.Email);
+                var check = db_Context.Users.FirstOrDefault(s => s.Email == _user.Email);
                 if (check == null)
                 {
                     _user.Password = GetMD5(_user.Password);
-                    objdb_aquaponicsContext.ConfigureAwait(false);
-                    objdb_aquaponicsContext.Users.Add(_user);
-                    objdb_aquaponicsContext.SaveChanges();
+                    db_Context.ConfigureAwait(false);
+                    db_Context.Users.Add(_user);
+                    db_Context.SaveChanges();
 
-					//add session
-					_contextAccessor.HttpContext.Session.SetString("FullName", _user.FirstName + " " + _user.LastName);
-					_contextAccessor.HttpContext.Session.SetString("Email", _user.Email);
-					_contextAccessor.HttpContext.Session.SetInt32("UserId", _user.UserId);
+                    //add session
+                    _contextAccessor.HttpContext.Session.SetString("FullName", _user.FirstName + " " + _user.LastName);
+                    _contextAccessor.HttpContext.Session.SetString("Email", _user.Email);
+                    _contextAccessor.HttpContext.Session.SetInt32("UserId", _user.UserId);
 
-					return RedirectToAction("Index");
+                    return RedirectToAction("Login");
                 }
                 else
                 {
-                    ViewBag.Message = "Đăng ký thất bại";
-
-                    return View();
+                    TempData["Error"] = "Gmail đã tồn tại.";
+					return View();
                 }
             }
             return View();
@@ -102,7 +100,7 @@ namespace web_Aqua.Controllers
         //đăng nhập
 
         [HttpGet]
-       // [Route("Login")]
+        // [Route("Login")]
 
         public ActionResult Login()
         {
@@ -113,33 +111,55 @@ namespace web_Aqua.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(string email, string password)
         {
-            if (ModelState.IsValid)
+            if (_contextAccessor.HttpContext.Session.GetInt32("UserId") == null)
             {
-
-
-                var f_password = GetMD5(password);
-                var data = objdb_aquaponicsContext.Users.Where(s => s.Email.Equals(email) && s.Password.Equals(f_password)).ToList();
-                if (data.Count() > 0)
+                if (ModelState.IsValid)
                 {
-                    //add session
-                    _contextAccessor.HttpContext.Session.SetString("FullName", data.FirstOrDefault().FirstName + " " + data.FirstOrDefault().LastName);
-                    _contextAccessor.HttpContext.Session.SetString("Email", data.FirstOrDefault().Email);
-                    _contextAccessor.HttpContext.Session.SetInt32("UserId", data.FirstOrDefault().UserId);
+                    User user = db_Context.Users.SingleOrDefault(x=> x.Email.ToLower() == email.ToLower().Trim());
 
-                    return RedirectToAction("Index");
+                    var f_password = GetMD5(password);
+                    var data = db_Context.Users.Where(s => s.Email.Equals(email) && s.Password.Equals(f_password)).ToList();
+                    if (data.Count() > 0)
+                    {
+                        //add session
+                        _contextAccessor.HttpContext.Session.SetString("FullName", data.FirstOrDefault().FirstName + " " + data.FirstOrDefault().LastName);
+                        _contextAccessor.HttpContext.Session.SetString("Email", data.FirstOrDefault().Email);
+                        _contextAccessor.HttpContext.Session.SetInt32("UserId", data.FirstOrDefault().UserId);
+						string role = "";
+                        if (user.IsAdmin == true)
+                            role = "Admin";
+                        else
+                            role = "User";
+
+                        var userClaims = new List<Claim>
+                        {
+
+                            new Claim(ClaimTypes.Name, user.LastName),
+                            new Claim(ClaimTypes.Email, user.Email),
+                            new Claim("UserId", user.UserId.ToString()),
+                            new Claim(ClaimTypes.Role, role),
+                        };
+
+						return RedirectToAction("Index");
+                    }
+                    else
+                    {
+						TempData["Error"] = "Đăng nhập thất bại";
+                        return RedirectToAction("Login");
+                    }
                 }
-                else
-                {
-                    ViewBag.Message = "Đăng nhập thất bại";
-                    return RedirectToAction("Login");
-                }
+                return View();
             }
-            return View();
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
         }
 
         public IActionResult Logout()
         {
-			_contextAccessor.HttpContext.Session.Clear();
+            _contextAccessor.HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
 
@@ -157,6 +177,9 @@ namespace web_Aqua.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-
-	}
+        public IActionResult Contact(int ID)
+        {
+            return View();
+        }
+    }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace web_Aqua.Context
 {
@@ -7,19 +9,27 @@ namespace web_Aqua.Context
     {
         public Brand()
         {
+            ImportProducts = new HashSet<ImportProduct>();
             Products = new HashSet<Product>();
         }
-
-        public int BrandId { get; set; }
-        public string? Name { get; set; }
+        [DisplayName("ID")]
+        public int BrandID { get; set; }
+        [DisplayName("Logo")]
         public string? Avatar { get; set; }
-        public string? Slug { get; set; }
+        [DisplayName("Hiển thị")]
         public bool? ShowOnHomePage { get; set; }
-        public int? DisplayOrder { get; set; }
-        public DateTime? CreatedOnUtc { get; set; }
-        public DateTime? UpdateOnUtc { get; set; }
-        public bool? Deleted { get; set; }
 
+
+        [DisplayName("Quốc gia")]
+        public string? Nation { get; set; }
+
+
+        [DisplayName("Công ty")]
+        public string? Company { get; set; }
+
+        [NotMapped] public List<IFormFile> ImageUpload { get; set; }
+
+        public virtual ICollection<ImportProduct> ImportProducts { get; set; }
         public virtual ICollection<Product> Products { get; set; }
     }
 }

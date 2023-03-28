@@ -1,58 +1,161 @@
-﻿
-@model List<web_Aqua.Context.Category>
+﻿@model web_Aqua.Models.HomeModel
+
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "ProductCategory";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 
 <!-- ========================= SECTION CONTENT ========================= -->
 <section class="section-content padding-y">
 	<div class="container">
 
-		<nav class="row">
-			@foreach (var item in Model)
-			{
-				<div class="col-md-3">
 
-					<div class="card card-category">
-						<div class="img-wrap" style="background: #ffd7d7">
-							<img src="~/images/items/@item.Avatar">
-						</div>
-						<div class="card-body">
-							<h4 class="card-title"><a href="#">@item.Name</a></h4>
+		<!-- ============================  FILTER TOP  ================================= -->
+		<div class="card mb-3">
+			<div class="card-body">
+				<ol class="breadcrumb float-left">
+					<li class="breadcrumb-item"><a href="~/Home/Index">Trang chủ</a></li>
+					<li class="breadcrumb-item active">Loại sản Phẩm</li>
+				</ol>
+			</div> <!-- card-body .// -->
+		</div> <!-- card.// -->
+		<!-- ============================ FILTER TOP END.// ================================= -->
 
-						</div>
+
+		<div class="row">
+			<aside class="col-md-2">
+				<h4>Loại sản phẩm</h4>
+				<article class="filter-group">
+					
+					<h6 class="title">
+						<a  class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_1">	 Nhà lưới</a>
+					</h6>
+					<div class="filter-content collapse show" id="collapse_1" style="">
+						<div class="inner">
+							<ul class="list-menu">
+								@foreach(var item in Model.listCategory.Where(n=>n.Inside==false))
+								{
+									<li>
+										@Html.ActionLink(item.Name, "Index", "Category", new {ID = item.CategoryId},null)
+									</li>
+								}
+							</ul>
+						</div> <!-- inner.// -->
 					</div>
-				</div> <!-- col.// -->
-			}
+				</article>
 
-		</nav> <!-- row.// -->
+					
+				<article class="filter-group">
+						<h6 class="title">
+							<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_2">	 Cây trồng </a>
+						</h6>
+						<div class="filter-content collapse show" id="collapse_2" style="">
+							<div class="inner">
+								<ul class="list-menu">
+									@foreach (var item in Model.listCategory.Where(n => n.Inside == true))
+									{
+										<li>
+											@Html.ActionLink(item.Name, "Index", "Category", new {ID = item.CategoryId},null)
+										</li>
+									}
+								</ul>
+							</div> 
+						</div>
+					</article>
+					<!-- filter-group  .//
+					</article> <!-- filter-group .// -->
 
+			</aside> <!-- col.// -->
+			<main class="col-md-10">
+
+
+				<header class="mb-3">
+					<div class="form-inline">
+						<strong class="mr-md-auto"> @ViewBag.listProductCount sản phẩm </strong>
+									
+					</div>
+				</header><!-- sect-heading -->
+
+
+				@foreach(var item in Model.listProductCategory)
+				{
+					decimal _price = Decimal.Parse(item.Price);
+					<article class="card card-product-list">
+					<div class="row no-gutters">
+						<aside class="col-md-3">
+								<a href="@Url.Action("Detail", "Product", new{ID=item.ProductId})" class="img-wrap">
+								<span class="badge badge-danger"> NEW </span>
+									<img src="~/images/items/@item.Avatar">
+							</a>
+						</aside> <!-- col.// -->
+						<div class="col-md-7">
+							<div class="info-main">
+								<a href="@Url.Action("Detail", "Product", new{ID=item.ProductId})" class="h5 title">@item.Name</a>
+									<hr />
+								<div class="rating-wrap mb-2">
+									<ul class="rating-stars">
+										<li style="width:100%" class="stars-active">
+											<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+											<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+										</li>
+										<li>
+											<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+											<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+										</li>
+									</ul>
+									<div class="label-rating">9/10</div>
+								</div> <!-- rating-wrap.// -->
+
+								<p class="mb-3">
+									<span class="tag"> <i class="fa fa-check"></i> Hàng có sẵn</span>
+									<span class="tag"> 06 tháng </span>
+									<span class="tag"> @item.Category.Name </span>
+									<span class="tag"> @item.Brand.Nation </span>
+									<span class="tag"> Số lượng: @item.Inventory </span>
+
+								</p>
+								<p>
+									@item.ShortDescription
+								</p>
+
+							</div> <!-- info-main.// -->
+						</div> <!-- col.// -->
+						<aside class="col-sm-2">
+							<div class="info-aside">
+								<div class="price-wrap">
+										<span class="h5 price">@(_price.ToString("n0"))</span>
+									<small class="text-muted">/ 1 sản phẩm</small>
+										<hr />
+								</div> <!-- price-wrap.// -->
+								<small class="text-warning mt-1">Có giao hàng</small>
+
+								<p class="text-muted mt-2">@item.Brand.Company</p>
+								<p class="text-muted mt-2">@item.Brand.Nation</p>
+
+								<p class="mt-4">
+								
+
+										<a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.ProductId"  class="btn btn-primary"> 
+										<i class="fa fa-shopping-cart"></i> Thêm giỏ hàng</a>
+								</p>
+
+								
+
+							</div> <!-- info-aside.// -->
+						</aside> <!-- col.// -->
+					</div> <!-- row.// -->
+				</article> <!-- card-product .// -->
+
+				}
+
+
+			</main> <!-- col.// -->
+
+		</div>
 
 	</div> <!-- container .//  -->
 </section>
-<!-- ========================= SECTION CONTENT END// ========================= -->
-<!-- ========================= SECTION SUBSCRIBE  ========================= -->
-<section class="padding-y-lg bg-light border-top">
-	<div class="container">
-
-		<p class="pb-2 text-center">Delivering the latest product trends and industry news straight to your inbox</p>
-
-		<div class="row justify-content-md-center">
-			<div class="col-lg-4 col-sm-6">
-				<form class="form-row">
-					<div class="col-8">
-						<input class="form-control" placeholder="Your Email" type="email">
-					</div> <!-- col.// -->
-					<div class="col-4">
-						<button type="submit" class="btn btn-block btn-warning"> <i class="fa fa-envelope"></i> Subscribe </button>
-					</div> <!-- col.// -->
-				</form>
-				<small class="form-text">We’ll never share your email address with a third-party. </small>
-			</div> <!-- col-md-6.// -->
-		</div>
-
-
-	</div>
-</section>
-<!-- ========================= SECTION SUBSCRIBE END// ========================= -->

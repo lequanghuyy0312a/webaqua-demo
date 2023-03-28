@@ -1,0 +1,117 @@
+﻿@model web_Aqua.Context.ImportProduct
+
+@{
+    ViewData["Title"] = "AddOrEdit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@if (Model.ImportProductId > 0)
+{
+    <div id="title">
+        <h1> <a id="title" href="~/Admin/ImportProduct"> Danh sách nhập hàng</a> <a>/</a> Sửa thông tin</h1>
+    </div>
+}
+else
+{
+    <div id="title">
+        <h1> <a id="title" href="~/Admin/ImportProduct"> Danh sách nhập hàng</a> <a>/</a> Thêm mới </h1>
+    </div>
+}
+<hr color="#18b616" />
+<form method="post" enctype="multipart/form-data" asp-controller="ImportProduct" asp-action="AddOrEdit">
+@*<form autocomplete="off" asp-controller="Product" asp-action="Edit">*@
+
+        <div class="" style="max-width: 860px; margin:0 auto; float:none;">
+              <div class="border border-light rounded">
+                <div class="text-center  border border-light rounded">
+                    <input type="hidden" asp-for="ImportProductId" class="form-control" />
+                    <input type="hidden" asp-for="Avatar" class="form-control" />
+                     <input type="hidden" asp-for="CreateOnUtc" class="form-control" />
+
+                    @if (Model.ImportProductId < 1 || Model.Avatar == null)
+                    {
+                    <img id="imgViewer" class="profile-user-img img-fluid mt-2"
+                         style=" max-width:350px;  max-height:350px; margin-bottom:10px; width:100%; height:auto;"
+                         src="~/images/avatars/NoImage.jpg"
+                         alt="ảnh danh mục" />
+                    }
+                    else
+                    {
+                    <img id="imgViewer" class="profile-user-img img-fluid mt-2"
+                         style=" max-width:350px;  max-height:350px; margin-bottom:10px; width:100%; height:auto;"
+                         src="~/images/importproducts/@Model.Avatar"
+                         alt="ảnh danh mục" />
+                        
+                    }
+
+                    <div class="form-group">
+                        <div class="custom-file" style="max-width:350px">
+                            <input class="custom-file-input "
+                                   asp-for="ImageUpload"
+                                   id="FLFrontImage"
+                                   type="file" name="files"
+                                   multiple
+                                   onchange="document.getElementById('imgViewer').src = window.URL.createObjectURL(this.files[0])" />
+                            <label asp-for="ImageUpload" for="FLFrontImage" class="custom-file-label">@Model.Avatar</label>
+                        </div>
+                    </div>
+
+                 </div>
+      
+                <div class="mt-3">
+                    <form class="form-horizontal ">
+                        
+                        <div class="form-group row mx-2">
+                            <label asp-for="Title" class="col-sm-3 col-form-label" id="label-column"></label>
+                            <div class="col-sm-9">
+                            <input class="form-control" asp-for="Title" />
+                            </div>
+                        </div>
+                    <div class="form-group row mx-2">
+                        <label asp-for="Description" class="col-sm-3 col-form-label" id="label-column"></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" asp-for="Description" />
+                        </div>
+                    </div>
+                        <div class="form-group row mx-2">
+                            <label asp-for="CategoryId" class="col-sm-3 col-form-label" id="label-column"></label>
+                            <div class="col-sm-9">
+                            @Html.DropDownListFor(m=>m.CategoryId, ViewBag.listCategory as SelectList, new {@class = "form-control"})
+                            </div>
+                        </div>
+                        <div class="form-group row mx-2">
+                            <label asp-for="BrandId" class="col-sm-3 col-form-label" id="label-column"></label>
+                            <div class="col-sm-9">
+                            @Html.DropDownListFor(m=>m.BrandId, ViewBag.listBrand as SelectList, new {@class = "form-control"})
+                            </div>
+                        </div>
+                    <div class="form-group row mx-2">
+                        <label asp-for="Quantity" class="col-sm-3 col-form-label" id="label-column"></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" asp-for="Quantity" />
+                        </div>
+                    </div>
+                                   
+                    </form>
+
+                </div>
+               
+            </div>
+        <div class="form-group row mx-2 mt-3 text-center">
+            <div class="col-sm-12" style="font-size:25px">
+                <button value="Submit" type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-check px-1"> </i>  Lưu
+                </button>
+                @if (Model.ImportProductId > 0)
+                {
+                    <a asp-action="AddOrEdit" asp-route-id="" class="btn btn-success btn-lg m-2">
+                        <i class="far fa-plus-square px-1"></i>  Thêm mới
+                    </a>
+                }
+                <a asp-action="Index" class="btn  btn-secondary btn-lg">
+                    <i class="fas fa-list px-1"></i>  Danh sách
+                </a>
+            </div>
+        </div>
+   </div>    
+</form>

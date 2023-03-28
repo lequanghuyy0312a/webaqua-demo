@@ -1,0 +1,218 @@
+﻿@model IEnumerable<web_Aqua.Models.CartModel>
+
+@{
+	ViewData["Title"] = "ShoppingCart";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{	
+	int stt = 1;
+	decimal total = 0;
+	decimal lasttotal = 0;
+}
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- ========================= SECTION CONTENT ========================= -->
+	<section class="section-content padding-y">
+		<div class="container">
+			<div class="row">
+				<main class="col-md-9">
+					<div class="card">				
+						<table class="table table-shopping-cart ">
+							<thead class="text-muted">
+								<tr class="small text-uppercase text-center">
+									<th scope="col">#</th>
+									<th scope="col">Hình ảnh</th>
+									<th scope="col">Tên sản phẩm</th>
+									<th scope="col" width="120">Đơn giá</th>
+									<th scope="col" width="120">Số lượng</th>
+									<th scope="col" width="120">Thành tiền</th>
+									<th scope="col" width="180px"></th>
+								</tr>
+							</thead>
+							<tbody >
+							@foreach (var item in Model)
+							{
+								var thanhtien = item._shoppingQuantity * Int32.Parse(item._shoppingProduct.Price);
+								total += thanhtien;
+
+								decimal _price = Decimal.Parse(item._shoppingProduct.Price);
+
+								<tr id="product-@item._shoppingProduct.ProductId" >
+									<td>
+										@(
+										stt++
+										)
+									</td>
+									<td class="text-center">					
+										<img src="~/images/items/@item._shoppingProduct.Avatar" class="zoom" style="width:100px; height:100px">				
+									</td>
+									<td>
+										<a href="~/Product/Detail/@item._shoppingProduct.ProductId"> <strong> @item._shoppingProduct.Name </strong> </a>
+										<div class="mt-3">
+											<p> @item._shoppingProduct.ShortDescription </p>
+
+										</div>
+										
+									</td>
+									<td class="text-right">
+										<label class="text-right" style="max-width:80px">@(_price.ToString("n0"))</label>
+									</td>
+									<td>
+										<input style="max-width:60px" class="form-control" min="1" max="999" asp-for="@item._shoppingQuantity" )" id="@($"quantity-{item._shoppingProduct.ProductId}")"   />
+									</td>
+									<td class="text-right">
+										<label style="max-width:80px">@(thanhtien.ToString("n0")) </label>
+									</td>
+									<td style=" text-align:center;" class="row">
+																							
+												<button class="btn btn-success updatecartitem"
+												data-productid="@item._shoppingProduct.ProductId">Cập nhật</button>
+									
+											
+												<a asp-route="removecart"
+											    asp-route-productid="@item._shoppingProduct.ProductId"
+												class="btn   btn-secondary ml-1">
+												<i class="fas fa-trash"></i> </a>	
+
+									
+									</td>								
+								</tr>
+							}
+							</tbody>												
+					</table>
+					<script>
+						$(document).ready(function () {
+							$(".updatecartitem").click(function (event) {
+								event.preventDefault();
+								var productid = $(this).attr("data-productid");
+								var quantity = $("#quantity-" + productid).val();
+								$.ajax({
+									type: "POST",
+									url: "@Url.RouteUrl("updatecart")",
+									data: {
+										productid: productid,
+										quantity: quantity
+									},
+									success: function (result) {
+										window.location.href = "@Url.RouteUrl("cart")";
+									}
+								});
+							});
+						});
+					</script>
+
+			
+				
+					@if (total == 0)
+					{
+						<div class="text-center alert alert-danger">
+							<h3>Giỏ hàng trống</h3>
+													
+							<img src = "~/images/noitem.jpg" />					
+                        </div>
+					}
+						<div class="card-body border-top">
+						@if (ViewBag.countCart < 1)
+						{
+							<a class="btn btn-light float-md-right disabled"> Thanh toán <i class="fa fa-chevron-right"></i> </a>
+						}
+						else
+						{
+							<a asp-action="CheckOut" asp-controller="Cart" class="btn btn-primary float-md-right"> Thanh toán <i class="fa fa-chevron-right"></i> </a>
+
+						}
+							<a href="~/Product/Index" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Danh sách sản phẩm</a>
+						</div>
+					</div> <!-- card.// -->
+
+					<div class="alert alert-success mt-3">
+						<p class="icontext"><i class="icon text-success fa fa-truck"></i> Miễn phí vận chuyển cho đơn hàng trong 1-2 tuần.</p>
+					</div>
+
+				</main> <!-- col.// -->
+				<aside class="col-md-3">
+					<div class="card mb-3">
+						<div class="card-body">
+							<form>
+								<div class="form-group">
+									<label>Bạn có mã giảm giá?</label>
+									<div class="input-group">
+										<input type="text" class="form-control" name="" placeholder="Mã giảm giá">
+										<span class="input-group-append">
+											<button class="btn btn-primary">Apply</button>
+										</span>
+									</div>
+								</div>
+							</form>
+						</div> <!-- card-body.// -->
+					</div>  <!-- card .// -->
+					<div class="card">
+						<div class="card-body">
+							<dl class="dlist-align">
+								<dt>Tạm tính:</dt>
+							<dd class="text-right" id="_total"> @(total.ToString("n0")) </dd>
+							</dl>
+							<dl class="dlist-align">
+								<dt>Giảm giá 10%:</dt>
+							<dd class="text-right">
+								- @((lasttotal = total * 10 / 100).ToString("n0"))
+								<hr>
+							</dd>
+							
+							</dl>
+
+							<dl class="dlist-align">
+								<dt>Tổng:</dt>
+							<dd class="text-right  h5"><strong>VNĐ @((total - lasttotal).ToString("n0"))</strong></dd>
+							</dl>
+							<hr>
+							<p class="text-center mb-3">
+								<img src="~/images/misc/payments.png" height="26">
+							</p>
+
+						</div> <!-- card-body.// -->
+					</div>  <!-- card .// -->
+				</aside> <!-- col.// -->
+			</div>
+
+		</div> <!-- container .//  -->
+	</section>
+
+	
+}
+
+
+<!-- ========================= SECTION CONTENT END// ========================= -->
+<!-- ========================= SECTION  ========================= -->
+<section class="section-name border-top padding-y">
+	<div class="container">
+		<h6>Payment and refund policy</h6>
+		<p>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</p>
+		<p>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</p>
+
+	</div><!-- container // -->
+</section>
+<!-- ========================= SECTION  END// ========================= -->
+
+<script>
+	document.getElementById("quantityChange").addEventListener("click", myFunction);
+
+	function myFunction() {
+		document.getElementById("quantityChange").innerHTML = "YOU CLICKED ME!";
+	}
+</script>

@@ -1,0 +1,136 @@
+﻿@model web_Aqua.Models.HomeModel
+
+@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="py-3 bg-light">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="~/Home/Index">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Bài viết</li>
+        </ol>
+    </div>
+</section>
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="section-title">
+							<h4 class="m-0 text-uppercase font-weight-bold text-warning">Bài viết mới nhất</h4>
+                                </div>
+                            </div>
+                        @foreach(var item in Model.listBlog.OrderByDescending(o=>o.CreateOnUtc).Take(6))
+                        {
+                        <div class="col-lg-6 mt-2">
+                            <div class="position-relative mb-3 ">
+                                <div  >
+                                    <a asp-controller="Blog" asp-action="Detail" asp-route-id="@item.BlogID">
+                                        <img class="img-fluid w-100" src="~/images/thumbnails/@item.Thumbnail" style="object-fit:cover;height:300px; width:auto">
+                                    </a> 
+                                </div>
+
+                                <div class="bg-white border border-top-0 p-4">
+                                    <div class="mb-2">
+                                        <a class="badge badge-success text-uppercase font-weight-semi-bold p-2 mr-2" href="~/Category/Index/@item.CategoryID">@item.Category.Name</a>
+										<a class="text-body"><small>@item.CreateOnUtc.Value.ToString("dd MMMM yyyy")</small></a>
+                                    </div>
+
+                                    <a  class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold"
+                                   asp-controller="Blog" asp-action="Detail" asp-route-id="@item.BlogID">
+                                        <p id="ellipsisTitle">@Html.Raw(item.Title) </p>
+                                    </a>
+                                   
+                                    <p class="m-0  text-truncate">
+                                       @Html.Raw(item.Description)
+                                    </p>
+                                </div>
+                                <div class="d-flex justify-content-between bg-white border border-top-0 p-4">
+                                    <div class="d-flex align-items-center">
+                                        <img class="rounded-circle mr-2" src="~/images/users/@item.User.Avatar" width="25" height="25" alt="">
+                                        <small>@item.User.LastName @item.User.FirstName</small>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <small class="ml-3"><i class="far fa-eye mr-2"></i>12345</small>
+                                        <small class="ml-3"><i class="far fa-comment mr-2"></i>123</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                 
+
+                    <div class="col-lg-6">
+                        <h4>Trong nước</h4>
+                        @foreach (var item in Model.listBlog.Where(n=>n.Country== true).Take(4))
+                        {
+                            <div class="d-flex align-items-center bg-white mb-3" style="height: 110px;">
+
+                              <a class="col-sm-4" asp-action="Detail" asp-route-id="@item.BlogID"  >
+                                    <img asp-controller="Blog" style="object-fit:cover;height:110px;" class="img-fluid" src="~/images/thumbnails/@item.Thumbnail" alt="ảnh bìa">
+                             </a>
+
+                                <div class="col-sm-8 px-3 d-flex flex-column justify-content-center border border-left-0">
+                                        <div class="mb-2">
+                                        <a class="badge badge-success  font-weight-semi-bold p-1 mr-2" href="~/Category/Index/@item.CategoryID">@item.Category.Name</a>
+										<a class="text-body"><small>@item.CreateOnUtc.Value.ToString("dd MMMM yyyy")</small></a>
+                                        </div>
+                                        <a class="h6 m-0 text-secondary  font-weight-bold"
+                                   asp-controller="Blog" asp-action="Detail" asp-route-id="@item.BlogID" >
+                                        <p id="ellipsisTitle"> @Html.Raw(item.Title) </p>
+                                        </a>
+                                    </div>
+                                </div>
+                        }
+                    </div>
+
+                        <div class="col-lg-6">
+                            <h4>Thế giới</h4>
+                            @foreach (var item in Model.listBlog.Where(n => n.Country == false).Take(4))
+                            {
+                                <div class="d-flex align-items-center bg-white mb-3" style="height: 110px;">
+                                <a class="col-sm-4" asp-action="Detail" asp-route-id="@item.BlogID">
+                                    <img asp-controller="Blog" style="object-fit:cover;height:110px;" class="img-fluid" src="~/images/thumbnails/@item.Thumbnail" alt="ảnh bìa">
+                                </a>
+                                <div class="col-sm-8 px-3 d-flex flex-column justify-content-center border border-left-0">
+                                        <div class="mb-2">
+                                            <a class="badge badge-success font-weight-semi-bold p-1 mr-2" href="~/Category/Index/@item.CategoryID">@item.Category.Name</a>
+										<a class="text-body"><small>@item.CreateOnUtc.Value.ToString("dd MMMM yyyy")</small></a>
+                                        </div>
+                                        <a class="h6 m-0 text-secondary font-weight-bold" 
+                                        asp-controller="Blog" asp-action="Detail" asp-route-id="@item.BlogID" >
+                                        <p id="ellipsisTitle"> @Html.Raw(item.Title) </p>
+                                    </a>
+                                    </div>
+                                </div>                        
+                                }
+                            </div>                            
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">   
+						@await Html.PartialAsync("_BlogPartial")
+                    </div>
+                </div>
+
+       
+		
+	</div> <!-- container .//  -->
+</section>
+
+<style>
+    #ellipsisTitle {
+        max-height: 50px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 2;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        width: inherit;
+    }
+</style>
+
