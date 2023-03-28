@@ -1,0 +1,146 @@
+﻿@model IEnumerable<web_Aqua.Context.Product>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+}
+@*@if (!string.IsNullOrWhiteSpace(@successMessage))
+{
+    <div class="alert alert-success">
+        <b>Thành công: </b> @successMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close" ></button>
+    </div>
+}
+else if (!string.IsNullOrWhiteSpace(@errorMessage))
+{
+    <div class="alert alert-danger">
+        <b>Thất bại: </b> @errorMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}*@
+
+<div>
+    <a>  <h1>Danh sách sản phẩm</h1></a> 
+    <hr color="green" />
+    <p>
+        <a href="~/Admin/Product/Create"> <h6>Thêm sản phẩm mới</h6></a>
+    </p>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Avatar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortDiscription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullDiscription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BrandId)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.ShowOnHomePage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DisplayOrder)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Inventory)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            @try
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Avatar)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CategoryId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ShortDiscription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullDiscription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TypeId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BrandId)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ShowOnHomePage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DisplayOrder)
+                    </td>
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Inventory)
+                    </td>
+
+                    <td>
+                      @*  <a href="~/Admin/Product/Edit" new { id=item.ProductId }>Sửa</a>
+                             <a href="~/Admin/Product/Edit" new { id=item.ProductId }>Xem</a>
+                              <a href="~/Admin/Product/Edit" new { id=item.ProductId }>Xoá</a>*@
+                       @* @Html.ActionLink("Edit", "Edit", new {  id=item.ProductId  })
+                        @Html.ActionLink("Details", "Details", new {  id=item.ProductId })
+                        @Html.ActionLink("Delete", "Delete", new {  id=item.ProductId  })*@
+                        @Html.ActionLink( "Sửa","Edit", new {  id=item.ProductId  })
+                        @Html.ActionLink( "Xem","Details", new {  id=item.ProductId  })
+                        @Html.ActionLink( "Xoá", "Delete",new {  id=item.ProductId  })
+
+                    </td>
+                </tr>
+            }
+            catch { }
+        }
+    </tbody>
+</table>

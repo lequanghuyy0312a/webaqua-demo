@@ -13,7 +13,7 @@ builder.Services.AddSession(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<db_aquaponicsContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("db_aquaponis")))  ;
+builder.Services.AddDbContext<db_aquaponicsContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("db_aquaponics")))  ;
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(option =>
@@ -39,14 +39,21 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-                    name: "areas",
-                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-                  );
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+    endpoints.MapControllerRoute(
+		name: "default",
+		pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+	
+
+});
+
+
 
 app.Run();
 

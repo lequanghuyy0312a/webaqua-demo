@@ -1,0 +1,92 @@
+﻿@model web_Aqua.Context.Product
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div>
+    <h1> <a href="~/Admin/Product"> Danh sách sản phẩm</a> <a>/</a> Thêm sản phẩm mới</h1>
+
+</div>
+    <hr color="green" />
+<form method="post" enctype="multipart/form-data" asp-controller="Product" asp-action="Create">
+<div class="row" style="margin:0 60px 0 60px">
+    <div class="col-md-4">
+   
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Tên sản phẩm</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageUpload" class="control-label">Hình ảnh</label>
+                <div class="custom-file">
+                    <input type="file" name="files" multiple />
+                </div>
+              
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label">Loại sản phẩm</label>
+                <input asp-for="CategoryId" class="form-control" />
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShortDiscription" class="control-label">Mô tả tóm tắt</label>
+                <textarea asp-for="ShortDiscription" class="form-control" rows="2"></textarea>
+                <span asp-validation-for="ShortDiscription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FullDiscription" class="control-label">Mô tả chi tiết</label>
+          
+                <textarea asp-for=" FullDiscription"  class="form-control" rows="5"></textarea>
+                <span asp-validation-for="FullDiscription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TypeId" class="control-label"></label>
+                <input asp-for="TypeId" class="form-control" />
+                <span asp-validation-for="TypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BrandId" class="control-label">Xuất sứ</label>
+                <input asp-for="BrandId" class="form-control" />
+                <span asp-validation-for="BrandId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShowOnHomePage" class="control-label">Hiển thị lên website</label>
+                <input asp-for="ShowOnHomePage" class="form-control" />
+                <span asp-validation-for="ShowOnHomePage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DisplayOrder" class="control-label"></label>
+                <input asp-for="DisplayOrder" class="form-control" />
+                <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label">Số lượng nhập</label>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label">Giá</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Inventory" class="control-label">Tồn kho</label>
+                <input asp-for="Inventory" class="form-control" />
+                <span asp-validation-for="Inventory" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        
+    </div>
+</div>
+
+</form>
+<div>
+    <a href = "~/Admin/Product">Danh sách sản phẩm</a>
+</div>
+
+
