@@ -1,0 +1,41 @@
+﻿@model web_Aqua.Models.HomeModel
+
+<div class = "row">
+
+	@foreach(var item in Model.listBlog.Take(8))
+	{
+
+		<div class="col-md-3 col-sm-6 mb-3">
+		<article class="card card-post">
+			 <a href="~/Blog/Detail/@item.BlogID"> <img src="~/images/thumbnails/@item.Thumbnail"  class="card-img-top"> 
+				</a>
+
+			<div class="card-body">
+					<div class="mb-2">
+						<a class="badge badge-success text-uppercase font-weight-semi-bold p-2 mr-2" href="~/Category/Index/@item.CategoryID">@item.Category.Name</a>
+						<a class="text-body"><small>@item.CreateOnUtc.Value.ToString("dd MMMM yyyy")</small></a>
+					</div>
+					<a href="~/Blog/Detail/@item.BlogID">
+						<h6 class="title" id="ellipsisTitleBottom">@item.Title</h6>
+					</a> 
+					<p class="small text-uppercase text-muted" id="ellipsisTitleBottom">@item.Description</p>
+			</div>
+		</article> <!-- card.// -->				
+	</div> <!-- col.// -->						
+
+	}	
+	<style>
+		#ellipsisTitleBottom {
+			height: 40px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			-webkit-line-clamp: 2;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			width: 100%;
+		}
+	</style>
+</div>
+
+
+			

@@ -58,7 +58,12 @@ namespace web_Aqua.Controllers
             objHomeModel.listBlog = db_Context.Blogs.Include(n => n.Category).Include(u => u.User).ToList();
             objHomeModel.listCategory = db_Context.Categories.Include(n => n.Products).Include(u => u.Blogs).ToList();
 
-		
+            objHomeModel.listProduct = db_Context.Products.ToList();
+
+            objHomeModel.listProductFull = (from p in objHomeModel.listProduct
+                                            join c in objHomeModel.listCategory on p.CategoryId equals c.CategoryId
+
+                                            select p).ToList();
 
             objHomeModel.listProduct = db_Context.Products.Include(p=>p.Category).ToList();
 			if (ID > 0)

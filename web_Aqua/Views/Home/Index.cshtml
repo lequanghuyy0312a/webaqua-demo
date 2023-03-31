@@ -143,7 +143,7 @@
 							<div class="card card-sm card-product-grid" >
 								<a href=" @Url.Action("Detail", "Product", new{ID=item.ProductId})" class="img-wrap"> <img src="~/images/items/@item.Avatar"> </a>
 								<figcaption class="info-wrap" >
-									<a href="@Url.Action("Detail", "Product", new{ID=item.ProductId})" class="title">@item.Name</a>
+									<a id="ellipsisTitle" href="@Url.Action("Detail", "Product", new{ID=item.ProductId})" class="title">@item.Name</a>
 									<div class="price mt-1">@item.Price </div> <!-- price-wrap.// -->
 								</figcaption>
 							</div>
@@ -184,10 +184,10 @@
 								<a href=" @Url.Action("Index", "Category", new{ID=item.CategoryId})" class="item">
 								<div class="card-body">
 									<h6 class="title">@item.Name</h6>
-									<img  style="width:130px; height:130px;" 
+									<img  style="width:190px; height:130px;" 
 										  class="img-sm float-right" 
 										  src="~/images/categories/@item.Avatar">
-									<p class="text-muted"><i class="fa fa-map-marker-alt"></i> @item.CategoryId</p>
+						
 								</div>
 							</a>
 						</li>
@@ -226,10 +226,10 @@
 
 									<div class="card-body">
 										<h6 class="title">@item.Name  </h6>
-										<img style="width:130px; height:130px;" 
-											class="img-sm float-right" 
+										<img style="width:190px; height:130px;"
+										 class="img-sm float-right" 
 											src="~/images/categories/@item.Avatar">
-										<p class="text-muted"><i class="fa fa-map-marker-alt"></i> @item.CategoryId</p>
+									
 									</div>
 								</a>
 							</li>
@@ -249,7 +249,7 @@
 		<header class="section-heading heading-line">
 			<h4 class="title-section text-uppercase">Một số bài viết</h4>
 		</header>
-		@await Html.PartialAsync("_ProductBottomPartial")
+		@await Html.PartialAsync("_BlogBottomPartial")
 
 	</section>
 	<!-- =============== SECTION SERVICES .//END =============== -->
@@ -261,26 +261,28 @@
 		</header>
 
 		<ul class="row mt-4">
-			<li class="col-md col-6"><a href="#" class="icontext"> <img class="icon-flag-sm" src="~/images/icons/flags/CN.png"> <span>China</span> </a></li>
-			<li class="col-md col-6"><a href="#" class="icontext"> <img class="icon-flag-sm" src="~/images/icons/flags/DE.png"> <span>Germany</span> </a></li>
-			<li class="col-md col-6"><a href="#" class="icontext"> <img class="icon-flag-sm" src="~/images/icons/flags/AU.png"> <span>Australia</span> </a></li>
-			<li class="col-md col-6"><a href="#" class="icontext"> <img class="icon-flag-sm" src="~/images/icons/flags/RU.png"> <span>Russia</span> </a></li>
-			<li class="col-md col-6"><a href="#" class="icontext"> <img class="icon-flag-sm" src="~/images/icons/flags/IN.png"> <span>India</span> </a></li>
-			<li class="col-md col-6"><a href="#" class="icontext"> <img class="icon-flag-sm" src="~/images/icons/flags/GB.png"> <span>England</span> </a></li>
-			<li class="col-md col-6"><a href="#" class="icontext"> <img class="icon-flag-sm" src="~/images/icons/flags/TR.png"> <span>Turkey</span> </a></li>
-			<li class="col-md col-6"><a href="#" class="icontext"> <img class="icon-flag-sm" src="~/images/icons/flags/UZ.png"> <span>Uzbekistan</span> </a></li>
+			<li class="col-md col-6"><a  class="icontext"> <img class="icon-flag-sm" src="~/images/icons/flags/CN.png"> <span>China</span> </a></li>
+			<li class="col-md col-6"><a  class="icontext"> <img class="icon-flag-sm" src="~/images/icons/flags/DE.png"> <span>Germany</span> </a></li>
+			<li class="col-md col-6"><a  class="icontext"> <img class="icon-flag-sm" src="~/images/icons/flags/AU.png"> <span>Australia</span> </a></li>
+			<li class="col-md col-6"><a  class="icontext"> <img class="icon-flag-sm" src="~/images/icons/flags/RU.png"> <span>Russia</span> </a></li>
+			<li class="col-md col-6"><a  class="icontext"> <img class="icon-flag-sm" src="~/images/icons/flags/IN.png"> <span>India</span> </a></li>
+			<li class="col-md col-6"><a  class="icontext"> <img class="icon-flag-sm" src="~/images/icons/flags/GB.png"> <span>England</span> </a></li>
+			<li class="col-md col-6"><a  class="icontext"> <img class="icon-flag-sm" src="~/images/icons/flags/TR.png"> <span>Turkey</span> </a></li>
+			<li class="col-md col-6"><a  class="icontext"> <img class="icon-flag-sm" src="~/images/icons/flags/UZ.png"> <span>Uzbekistan</span> </a></li>
 
 		</ul>
 	</section>
-	<!-- =============== SECTION REGION .//END =============== -->
-
-	<article class="my-4 text-center">
-        
-	
-
-	</article>
+	@*<style>
+		#ellipsisTitle {
+			max-height: 50px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			-webkit-line-clamp: 2;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			max-width: 100%	;
+		}
+	</style>*@
 </div>
 <!-- container end.// -->
-<!-- ========================= SECTION SUBSCRIBE  ========================= -->
-<
-<!-- ========================= SECTION SUBSCRIBE END// ========================= -->
+

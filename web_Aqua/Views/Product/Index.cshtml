@@ -4,20 +4,21 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <!-- ========================= SECTION CONTENT ========================= -->
+<section class="py-3 bg-light">
+	<div class="container">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="~/Home/Index">Trang chủ</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Danh sách sản phẩm</li>
+		</ol>
+	</div>
+</section>
 <section class="section-content padding-y">
 	<div class="container">
 		<!-- ============================  FILTER TOP  ================================= -->
 		<div class="card mb-3">
 			<div class="card-body">
-				<div class="row">
-					<nav class="col-md">
-						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="~/Home/Index">Home</a></li>
-							<li class="breadcrumb-item active" aria-current="page">Danh sách sản phẩm</li>
-						</ol>
-					</nav> <!-- col.// -->
-				</div> <!-- row.// -->
-				<hr>
+
+
 				<div class="row">
 					
 					<div class="col-md-12">
@@ -56,7 +57,7 @@
 		<div class="row">
 		@foreach(var item in Model.listProductFull)
 		{
-                <div class="col-3">
+                <div class="col-3 col-12">
 					<figure class="card card-product-grid">
 						<div class="img-wrap">
 							<span class="badge badge-danger"> NEW </span>
@@ -109,5 +110,5 @@
 	
 
 	</div> <!-- container .//  -->
-
+</section>
 <!-- ========================= SECTION SUBSCRIBE END// ========================= -->

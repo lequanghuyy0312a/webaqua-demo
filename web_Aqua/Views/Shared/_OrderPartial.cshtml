@@ -11,7 +11,7 @@
 
     if (userid > 0)
     {
-        var orderCount = db_context.Orders.Where(o=>o.UserId ==userid).ToList().Count;
+        var orderCount = db_context.Orders.Where(o=>o.UserId == userid).ToList().Count;
         <div class="nav-item">
             <a asp-action="Index" asp-controller="OrderDetail" asp-route-itemid="@userid" class="widget-view">
                 <div class="icon-area">

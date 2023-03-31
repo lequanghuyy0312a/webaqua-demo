@@ -1,21 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting.Internal;
 using System.Data;
-using System.Drawing;
-using System.Drawing.Printing;
 using web_Aqua.Context;
-using web_Aqua.Models;
 using X.PagedList;
 using static web_Aqua.Common;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace web_Aqua.Areas.Admin.Controllers
 {
+	[Authorize(Roles = "Admin")]
 	public class BrandController : Controller
-	{
+	{    
 
         db_aquaponicsContext db_Context = new db_aquaponicsContext();
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -56,7 +53,7 @@ namespace web_Aqua.Areas.Admin.Controllers
             page = page < 1 ? 1 : page;
             int pagesize = 4;
             int pageNumber = (page ?? 1);
-            listBrand = listBrand.OrderByDescending(n => n.BrandId).ToList();
+            listBrand = listBrand.OrderByDescending(n => n.BrandID).ToList();
 
 
             return View(listBrand.ToPagedList(pageNumber, pagesize));
@@ -74,7 +71,7 @@ namespace web_Aqua.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var objBrand = db_Context.Brands.FirstOrDefault(n => n.BrandId == ID);
+            var objBrand = db_Context.Brands.FirstOrDefault(n => n.BrandID == ID);
             if (objBrand == null)
             {
                 return NotFound();
@@ -173,7 +170,7 @@ namespace web_Aqua.Areas.Admin.Controllers
             }
             try
             {
-                if (objBrand.BrandId != 0)
+                if (objBrand.BrandID != 0)
                 {
                     db_Context.Entry(objBrand).State = EntityState.Modified;
                     TempData["Success"] = "Đã sửa thông tin đối tác: " + "[ " + objBrand.Company + " - " + objBrand.Nation + " ]";

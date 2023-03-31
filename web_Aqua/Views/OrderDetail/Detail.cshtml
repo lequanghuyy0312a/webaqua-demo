@@ -17,7 +17,7 @@
                     <div class="d-flex">
                         <a href="~/OrderDetail/Index" class="btn  btn-success mr-auto">
                             <i class="fa fa-chevron-left"></i>
-                            Quay lại
+                           Danh sách đơn hàng
                             
 
                         </a>
@@ -105,17 +105,17 @@
 
                         <div class="d-flex justify-content-between pt-5">
                             <strong class="fw-bold mb-0">Chi tiết đơn hàng</strong>
-                            <p class="text-muted mb-0"><span class="fw-bold me-4">Tạm tính:</span> @(total.ToString("n0"))</p>
+                                <p class="text-muted mb-0"><span class="fw-bold me-4">Tạm tính:</span> @(total.ToString("n0"))</p>
                         </div>
 
                         <div class="d-flex justify-content-between pt-2">
                             <p class="text-muted mb-0">Mã đơn hàng: --------</p>
-                            <p class="text-muted mb-0"><span class="fw-bold me-4">Discount</span> -15%</p>
+                            <p class="text-muted mb-0"><span class="fw-bold me-4">Discount</span> -10%</p>
                         </div>
 
                         <div class="d-flex justify-content-between">
                             <p class="text-muted mb-0">Ngày đặt hàng: -----</p>
-                            <p class="text-muted mb-0"><span class="fw-bold me-4">VAT(10)</span> +10% </p>
+                            <p class="text-muted mb-0"><span class="fw-bold me-4">Đã bao gồm</span> VAT </p>
                         </div>
 
                         <div class="d-flex justify-content-between mb-5">
@@ -126,12 +126,14 @@
                     <div class="card-footer border-0 px-4 py-5"
                          style="background-color: #18b616; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
                         <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">
-                            <span class="h2 mb-0 ms-2">VNĐ @((total - lasttotal).ToString("n0"))</span>
+                                <span class="h2 mb-0 ms-2">VNĐ @((total - (lasttotal = total * 10 / 100)).ToString("n0"))</span>
                         </h5>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    </div>
+
 </section>
 

@@ -1,19 +1,20 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient.Server;
+
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 using System.Data;
 using web_Aqua.Context;
+using X.PagedList;
 using static web_Aqua.Common;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 
 namespace web_Aqua.Areas.Admin.Controllers
 {
+	[Authorize(Roles = "Admin")]
 
-
-    public class BlogsController : Controller
+	public class BlogsController : Controller
     {
         db_aquaponicsContext db_Context = new db_aquaponicsContext();
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -25,13 +26,48 @@ namespace web_Aqua.Areas.Admin.Controllers
         }
 
         [Area("Admin")]
-        public IActionResult Index()
+        public IActionResult Index(int? page, string SearchString, string currentFilter)
         {
+            var listBlog = new List<Blog>();
             LoadDropMenu();
-            var list = db_Context.Blogs.Include(c => c.Category).OrderByDescending(n => n.BlogID).ToList();
-            return View(list);
-           
-        }
+            if (SearchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                SearchString = currentFilter;
+            }
+
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                listBlog = db_Context.Blogs.Include(c => c.Category).OrderByDescending(n => n.BlogID).Where(n => n.Title.Contains(SearchString)).ToList();
+                ViewBag.listBlogCount = listBlog.Count;
+            }
+            else
+            {
+                listBlog = db_Context.Blogs.Include(c => c.Category).OrderByDescending(n => n.BlogID).ToList();
+
+                //listProduct = db_Context.Products.ToList();
+                ViewBag.listBlogCount = listBlog.Count;
+
+            }
+
+                ViewBag.CurrentFilter = SearchString;
+             
+
+                page = page < 1 ? 1 : page;
+                int pagesize = 5;
+                int pageNumber = (page ?? 1);
+                listBlog = listBlog.OrderByDescending(n => n.BlogID).ToList();
+
+
+                return View(listBlog.ToPagedList(pageNumber, pagesize));
+
+            }
+
+
+
         // START --xoá--
         [Area("Admin")]
         [HttpPost, ActionName("Delete")]

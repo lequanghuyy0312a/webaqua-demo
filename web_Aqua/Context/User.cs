@@ -22,9 +22,12 @@ namespace web_Aqua.Context
         [DisplayName("Tên")]
         public string? LastName { get; set; }
 
+        [Phone]
         [DisplayName("Số điện thoại")]
         public string? Phone { get; set; }
 
+
+        [EmailAddress]
         [DisplayName("Gmail")]
         public string? Email { get; set; }
 
@@ -39,7 +42,9 @@ namespace web_Aqua.Context
 
         [DisplayName("hình ảnh")]
         public string? Avatar { get; set; }
-        [NotMapped] public List<IFormFile> ImageUpload { get; set; }
+		[DisplayName("Địa chỉ")]
+		public string? Address { get; set; }
+		[NotMapped] public List<IFormFile> ImageUpload { get; set; }
 
         public virtual ICollection<Blog> Blogs { get; set; }
         public virtual ICollection<Order> Orders { get; set; }

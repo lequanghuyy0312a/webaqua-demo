@@ -1,0 +1,101 @@
+﻿@model web_Aqua.Context.User
+
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content py-3">
+    <div class="row d-flex justify-content-center">
+     
+         <div class="col-md-3 ">
+           <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+                <div class="card-body box-profile">
+                    <div class="text-center">
+                        <img class="profile-user-img img-fluid rounded-circle"
+                             src="~/images//users/@Model.Avatar"
+                             alt="User profile picture">
+                    </div>
+
+                    <h3 class="profile-username text-center">@Model.FirstName @Model.LastName</h3>
+
+                    <p class="text-muted text-center">Thành viên mới</p>
+
+                    <ul class="list-group list-group-unbordered mb-3">
+
+                        <li class="list-group-item">
+                            <b> Đơn hàng </b> 
+                            
+                            @if (@ViewBag.countOrder > 0)
+                            {
+                                <span class="float-right rounded-circle bg-danger text-center text-white" style="width:23px">@ViewBag.countOrder</span>
+                            }
+                            else
+                            {
+                                <a class="float-right"> @ViewBag.countOrder</a>
+                            }
+                        </li>
+                    </ul>
+
+                    <a href="~/OrderDetail/Index" class="btn btn-success btn-block"><b>Xem đơn hàng</b></a>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+            <!-- About Me Box -->
+            <div class="card card-primary">
+                <div class="card-header">
+                    <div class="row d-flex">
+                        <h3 class="card-title mr-auto p-2 ">About Me</h3>
+                        <a class=" mt-2 p-2" asp-action="EditProfile" asp-controller="User" asp-route-id="@Model.UserId"> <h5> <u> Sửa thông tin</u></h5> </a>
+                    </div>
+                   
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+
+                    <strong><i class="fa fa-envelope" aria-hidden="true"></i> Gmail</strong>
+                    <p class="text-muted">
+                        @Model.Email
+                    </p>
+                    <hr>
+
+                    <strong><i class="fa fa-phone" aria-hidden="true"></i> Số điện thoại</strong>
+                    <p class="text-muted">@Model.Phone</p>
+                    <hr>
+                    <strong><i class="fa fa-map-marker" aria-hidden="true"></i> Địa chỉ</strong>
+
+                    <p class="text-muted">@Model.Address</p>
+                    <hr>
+                    <strong><i class="fa fa-calendar" aria-hidden="true"></i> Ngày tạo</strong>
+                    <p class="text-muted">@Model.CreateOnUtc</p>
+                    <hr>
+
+                    <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
+
+                    <p class="">Mọi thắc mắc yêu câu hỗ trợ xin vui lòng <br /> <a class="text-primary" href="~/ContactAndPolicy/Contact">Liên hệ với chúng tôi</a></p>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+
+
+
+
+    </div>
+       
+        <!-- /.row -->
+
+</section>
+<!-- /.content -->
+
+<style>
+    .profile-user-img {
+        border: 3px solid #adb5bd;
+        margin: 0 auto;
+        padding: 3px;
+        width: 100px;
+    }
+ </style>

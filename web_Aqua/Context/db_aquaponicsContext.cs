@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Owin.BuilderProperties;
 
 namespace web_Aqua.Context
 {
@@ -100,14 +101,14 @@ namespace web_Aqua.Context
             modelBuilder.Entity<ContactAndPolicy>(entity =>
             {
                 entity.ToTable("ContactAndPolicy");
-                entity.Property(e => e.Name).HasMaxLength(100);
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("ID");
+                entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Content).HasColumnName("Content_");
+                entity.Property(e => e.Name).HasMaxLength(300);
+
+                entity.Property(e => e.KeyWord).HasMaxLength(10);
             });
+
 
             modelBuilder.Entity<ImportProduct>(entity =>
             {
@@ -230,8 +231,13 @@ namespace web_Aqua.Context
                 entity.Property(e => e.FirstName).HasMaxLength(50);
 
                 entity.Property(e => e.LastName).HasMaxLength(50);
+				
 
-                entity.Property(e => e.Password).HasMaxLength(50);
+				entity.Property(e => e.Address).HasMaxLength(300);
+
+
+
+				entity.Property(e => e.Password).HasMaxLength(50);
 
                 entity.Property(e => e.Phone).HasMaxLength(12);
             });

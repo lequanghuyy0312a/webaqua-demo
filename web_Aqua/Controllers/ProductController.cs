@@ -47,8 +47,19 @@ namespace web_Aqua.Controllers
 
 			objHomeModel.listBlog = db_Context.Blogs.Include(n => n.Category).Include(u => u.User).ToList();
             objHomeModel.product = db_Context.Products.Include(p=>p.Category).Include(b=>b.Brand).Where(n => n.ProductId == ID).FirstOrDefault();
-            objHomeModel.listCategory = db_Context.Categories.Include(n => n.Products).Include(u => u.Blogs).ToList();
-            if (ID > 0)
+       
+			objHomeModel.listCategory = db_Context.Categories.ToList();
+			objHomeModel.listBrand = db_Context.Brands.ToList();
+			objHomeModel.listProduct = db_Context.Products.ToList();
+
+			objHomeModel.listProductFull = (from p in objHomeModel.listProduct
+											join c in objHomeModel.listCategory on p.CategoryId equals c.CategoryId
+											where p.CategoryId == c.CategoryId
+
+											join b in objHomeModel.listBrand on p.BrandId equals b.BrandID
+											where p.BrandId == b.BrandID
+											select p).ToList();
+			if (ID > 0)
             {
                 return View(objHomeModel);
 

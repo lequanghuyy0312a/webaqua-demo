@@ -1,0 +1,80 @@
+﻿@model List<web_Aqua.Context.ContactAndPolicy>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div id="headings">
+    <h2 id="title">Thông tin Liên hệ và Công khai nhập hàng</h2>
+    <span id="hr"></span>
+</div>
+
+<div class="mt-5 ">
+    @*Table*@
+    <table id="casti_male" class="table  table-hover" style="overflow:hidden; white-space: nowrap; ">
+        <thead>
+            <tr style="text-align:center">
+                <th width="50">
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Id)
+                </th>
+                <th width="100">
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().KeyWord)
+
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Content)
+
+                </th>
+
+                <th class="text-center">
+                    <a style="width:100px; font-size:16px;" asp-action="AddOrEdit" class="btn btn-primary btn-lg" asp-controller="ContactAndPolicy">
+                        <i class="far fa-plus-square"></i>   Thêm
+                    </a>
+                </th>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td> 
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KeyWord)
+                    </td>
+                    <td id="short">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td id="short">
+                        @Html.DisplayFor(modelItem => item.Content)
+                    </td>               
+
+                    <td style=" text-align: center;">
+                        <form asp-route-id="@item.Id" asp-action="Delete" asp-controller="ContactAndPolicy">
+                            <div class="btn-group btn-group-sm">                              
+                                <a asp-route-id="@item.Id" asp-controller="ContactAndPolicy" asp-action="AddOrEdit" class="btn btn-sm btn-warning mr-2">
+                                    <i class="far fa-edit"></i>
+                                </a>
+                                @* xoá sản phẩm không dùng view Delete*@
+                                <button type="submit" class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Bạn có muốn xoá @item.Name ?')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </form>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>

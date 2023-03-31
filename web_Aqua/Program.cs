@@ -1,8 +1,12 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using web_Aqua.Context;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
+using System.Configuration;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +23,26 @@ builder.Services.AddDbContext<db_aquaponicsContext>(option => option.UseSqlServe
 builder.Services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddDistributedMemoryCache();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
+{
+    option.LoginPath = "/Home/Login";
+    option.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+});
+builder.Services.AddAuthentication()
+	.AddGoogle(googleOptions =>
+	{
+		// Đọc thông tin Authentication:Google từ appsettings.json
+		IConfigurationSection googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
+
+		// Thiết lập ClientID và ClientSecret để truy cập API google
+		googleOptions.ClientId = googleAuthNSection["ClientId"];
+		googleOptions.ClientSecret = googleAuthNSection["ClientSecret"];
+		// Cấu hình Url callback lại từ Google (không thiết lập thì mặc định là /signin-google)
+		googleOptions.CallbackPath = "/google";
+
+	});
+
+
 builder.Services.AddSession(option =>
 {
     option.Cookie.Name = "cart";
@@ -40,6 +64,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles(); 
 app.UseSession();
 app.UseRouting();
+app.UseAuthentication();
+
 
 app.UseAuthorization();
 

@@ -1,0 +1,63 @@
+﻿@model web_Aqua.Context.ContactAndPolicy
+@{
+    ViewData["Title"] = "Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper mt-3">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Liên hệ với chúng tôi</h1>
+                </div>
+              
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+
+    <section class="content">
+
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-body row">
+                <div class="col-sm-5 col-12 text-center d-flex align-items-center justify-content-center">
+                    <div class="">
+                       @Html.Raw(Model.Content)
+                    </div>
+                </div>
+                <div class="col-sm-7 col-12 mt-3">
+                
+                        <div class="form-group">
+                        <label for="inputName">Họ và Tên</label>
+                        <input type="text" id="inputName" name="name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail">Địa chỉ E-Mail</label>
+                        <input type="email" id="inputEmail" name="toEmail" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="inputSubject">Tiêu đề</label>
+                        <input type="text" id="inputSubject" name="title" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="inputMessage">Nội dung</label>
+                        <textarea id="inputMessage" class="form-control" name="message" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" value=" Send Message">
+                    </div>
+   
+                </div>
+              
+               
+            </div>
+        </div>
+
+    </section>
+    <!-- /.content -->
+</div>
+

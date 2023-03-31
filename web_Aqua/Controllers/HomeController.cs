@@ -4,12 +4,12 @@ using System.Security.Cryptography;
 using System.Text;
 using web_Aqua.Context;
 using web_Aqua.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Session;
-using Microsoft.CodeAnalysis.Scripting;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 
 namespace web_Aqua.Controllers
 {
@@ -29,18 +29,27 @@ namespace web_Aqua.Controllers
         }
 
 
+
         //hiển thị data lên trang chủ từ sql server
         public IActionResult Index(int ID)
         {
             HomeModel objHomeModel = new HomeModel();
             objHomeModel.listCategory = db_Context.Categories.OrderBy(n => n.Name).ToList();
-
             objHomeModel.listProductCategory = db_Context.Products.Where(n => n.CategoryId == ID).ToList();
-
             objHomeModel.listProduct = db_Context.Products.ToList();
-			objHomeModel.listBlog = db_Context.Blogs.Include(n => n.Category).Include(u => u.User).ToList();
+            objHomeModel.listBlog = db_Context.Blogs.Include(n => n.Category).Include(u => u.User).ToList();
+            objHomeModel.user = db_Context.Users.Where(u => u.UserId == _contextAccessor.HttpContext.Session.GetInt32("UserId")).FirstOrDefault();
 
-			return View(objHomeModel);
+            ViewBag.Image = db_Context.Users.Where(u => u.UserId == _contextAccessor.HttpContext.Session.GetInt32("UserId")).Select(u => u.Avatar).FirstOrDefault();
+
+            if (objHomeModel.user != null)
+            {
+                ViewBag.IsAdmin = objHomeModel.user.IsAdmin;
+            }
+
+
+
+            return View(objHomeModel);
         }
 
 
@@ -56,30 +65,35 @@ namespace web_Aqua.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Register(User _user)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var check = db_Context.Users.FirstOrDefault(s => s.Email == _user.Email);
+                var check = db_Context.Users.Where(s => s.Email == _user.Email).FirstOrDefault();
+
+
                 if (check == null)
                 {
                     _user.Password = GetMD5(_user.Password);
-                    db_Context.ConfigureAwait(false);
+                    //  db_Context.ConfigureAwait(false);
                     db_Context.Users.Add(_user);
                     db_Context.SaveChanges();
 
                     //add session
-                    _contextAccessor.HttpContext.Session.SetString("FullName", _user.FirstName + " " + _user.LastName);
-                    _contextAccessor.HttpContext.Session.SetString("Email", _user.Email);
-                    _contextAccessor.HttpContext.Session.SetInt32("UserId", _user.UserId);
+                    // _contextAccessor.HttpContext.Session.SetString("FullName", _user.FirstName + " " + _user.LastName);
+                    // _contextAccessor.HttpContext.Session.SetString("Email", _user.Email);
+                    // _contextAccessor.HttpContext.Session.SetInt32("UserId", _user.UserId);
 
                     return RedirectToAction("Login");
                 }
                 else
                 {
                     TempData["Error"] = "Gmail đã tồn tại.";
-					return View();
+                    return View();
                 }
             }
-            return View();
+            catch
+            {
+                return View();
+            }
         }
         //tạo mã hoá MD5
         public static string GetMD5(string str)
@@ -104,28 +118,38 @@ namespace web_Aqua.Controllers
 
         public ActionResult Login()
         {
+            ClaimsPrincipal claimsPrincipal = HttpContext.User;
+            if (claimsPrincipal.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(string email, string password)
+        public async Task<ActionResult> Login(string email, string password)
         {
             if (_contextAccessor.HttpContext.Session.GetInt32("UserId") == null)
             {
                 if (ModelState.IsValid)
                 {
-                    User user = db_Context.Users.SingleOrDefault(x=> x.Email.ToLower() == email.ToLower().Trim());
+                    User user = db_Context.Users.SingleOrDefault(x => x.Email.ToLower() == email.ToLower().Trim());
+
 
                     var f_password = GetMD5(password);
                     var data = db_Context.Users.Where(s => s.Email.Equals(email) && s.Password.Equals(f_password)).ToList();
+
+
+
                     if (data.Count() > 0)
                     {
                         //add session
-                        _contextAccessor.HttpContext.Session.SetString("FullName", data.FirstOrDefault().FirstName + " " + data.FirstOrDefault().LastName);
+                        _contextAccessor.HttpContext.Session.SetString("FirstName", data.FirstOrDefault().FirstName);
+                        _contextAccessor.HttpContext.Session.SetString("LastName", data.FirstOrDefault().LastName);
+
                         _contextAccessor.HttpContext.Session.SetString("Email", data.FirstOrDefault().Email);
                         _contextAccessor.HttpContext.Session.SetInt32("UserId", data.FirstOrDefault().UserId);
-						string role = "";
+                        string role = "";
                         if (user.IsAdmin == true)
                             role = "Admin";
                         else
@@ -140,11 +164,19 @@ namespace web_Aqua.Controllers
                             new Claim(ClaimTypes.Role, role),
                         };
 
-						return RedirectToAction("Index");
+                        ClaimsIdentity claimsIdentity = new ClaimsIdentity(userClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        AuthenticationProperties properties = new AuthenticationProperties()
+                        {
+                            AllowRefresh = true
+                        };
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
+
+
+                        return RedirectToAction("Index");
                     }
                     else
                     {
-						TempData["Error"] = "Đăng nhập thất bại";
+                        TempData["Error"] = "Đăng nhập thất bại";
                         return RedirectToAction("Login");
                     }
                 }
@@ -157,29 +189,20 @@ namespace web_Aqua.Controllers
 
         }
 
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             _contextAccessor.HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
 
 
 
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        public IActionResult Contact(int ID)
-        {
-            return View();
-        }
-    }
+    
+	}
 }

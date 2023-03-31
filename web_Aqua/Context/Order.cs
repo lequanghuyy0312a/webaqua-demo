@@ -17,9 +17,6 @@ namespace web_Aqua.Context
         public int OrderId { get; set; }
         [DisplayName("Nội dung")]
         public string? Name { get; set; }
-        [DisplayName("Sản Phẩm")]
-        public int? ProductId { get; set; }
-
 
         [DisplayName("Người mua")]
         public int? UserId { get; set; }

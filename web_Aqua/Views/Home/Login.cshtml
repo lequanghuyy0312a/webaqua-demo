@@ -9,13 +9,13 @@
 <section class="section-conten padding-y" style="min-height:84vh">
 
     <!-- ============================ COMPONENT LOGIN   ================================= -->
-    <div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
+    <div class="card mx-auto" style="max-width: 380px;">
         <div class="card-body">
-            <h4 class="card-title mb-4">Đăng nhập</h4>
+            <h4 class="card-title">Đăng nhập</h4>
              @using (Html.BeginForm("Login", "Home", FormMethod.Post))
                 {
                 @Html.AntiForgeryToken()
-                    <a href="#" class="btn btn-facebook btn-block mb-2"> <i class="fab fa-facebook-f"></i> &nbsp  Đăng nhập với Facebook</a>
+                    <a asp-action="ExternalLogin" asp-controller="Home" class="btn btn-facebook btn-block mb-2"> <i class="fab fa-facebook-f"></i> &nbsp  Đăng nhập với Facebook</a>
                     <a href="#" class="btn btn-google btn-block mb-4"> <i class="fab fa-google"></i> &nbsp  Sign Đăng nhập với  Google</a>
                     <div class="form-group">
                     @Html.LabelFor(m=>m.Email)
@@ -24,7 +24,7 @@
                     </div> <!-- form-group// -->
                     <div class="form-group">
                     @Html.LabelFor(m=>m.Password)
-                    @Html.TextBoxFor(m=>m.Password, "", new{@class = "form-control", @placeholder="Mật khẩu"})
+                    @Html.TextBoxFor(m=>m.Password, "", new{@class = "form-control", @placeholder="Mật khẩu", @type= "password"})
                     </div> <!-- form-group// -->
 
                     <div class="form-group">
@@ -37,9 +37,11 @@
                 }
         </div> <!-- card-body.// -->
     </div> <!-- card .// -->
-
-    <p class="text-center mt-4">Bạn chưa có tài khoản? <a href="~/Home/Register" class="btn btn-link">Đăng ký bằng gmail</a></p>
-    <br><br>
+    <div class="text-center mt-5">
+        <p >Bạn chưa có tài khoản? <a class="ml-3" href="~/Home/Register">Đăng ký bằng gmail</a></p>
+        <br>
+    </div>
+  
     <!-- ============================ COMPONENT LOGIN  END.// ================================= -->
 
 

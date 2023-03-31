@@ -1,8 +1,234 @@
-﻿
+﻿@model web_Aqua.Models.HomeModel
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
+<section class="content">
+    <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>@ViewBag.today</h3>
 
+                        <h4>Đơn hàng hôm nay</h4>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-store"></i>
+                    </div>
+                    <a href="~/Admin/Order/Index" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>@ViewBag.yesterday </h3>
+
+                        <h4>Đơn hàng hôm qua</h4>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-store"></i>
+                    </div>
+                    <a href="~/Admin/Order/Index" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>@ViewBag.month</h3>
+
+                        <h4>Đơn hàng trong tháng</h4>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-store"></i>
+                    </div>
+                    <a href="~/Admin/Order/Index" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>@Model.listOrder.Count</h3>
+
+                        <h4>Tất cả đơn hàng</h4>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-store"></i>
+                    </div>
+                    <a href="~/Admin/Order/Index" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+        </div>
+    
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-secondary">
+                    <div class="inner">
+                        <h3>@Model.listProduct.Count</h3>
+
+                        <h4>Sản phẩm</h4>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a href="~/Admin/Product/Index" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>@Model.listCategory.Count</h3>
+
+                        <h4>Danh mục</h4>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-product-hunt" aria-hidden="true"></i>
+                    </div>
+                    <a href="~/Admin/Category/Index" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>@Model.listUser.Count</h3>
+
+                        <h4>Thành viên </h4>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person-add"></i>
+                    </div>
+                    <a href="~/Admin/User/Index" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h3>@Model.listBlog.Count</h3>
+
+                        <h4>Bài viết</h4>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                    </div>
+                    <a href="~/Admin/Blogs/Index" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+        </div>
+    </div>
+</section>
+<section>
+    
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header border-transparent">
+                <h3 class="card-title">5 đơn hàng gần đây</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table m-0">
+                        <thead>
+                            <tr>
+                                <th class="text-center">
+                                    @Html.DisplayNameFor(model => model.listOrder.FirstOrDefault().OrderId)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.listOrder.FirstOrDefault().Name)
+
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.listOrder.FirstOrDefault().UserId)
+
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.listOrder.FirstOrDefault().Status)
+
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.listOrder.FirstOrDefault().User.Address)
+
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.listOrder.FirstOrDefault().CreatedOnUtc)
+
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var item in Model.listOrder.OrderByDescending(o=>o.CreatedOnUtc).Take(5))
+                            {
+                                string fullname = @item.User.FirstName + " " + @item.User.LastName;
+                                <tr>
+                                    <td><a href="~/Admin/Order/Details/@item.OrderId">@item.OrderId</a></td>
+                                    <td>@item.Name</td>
+                                    <td>@fullname</td>
+
+                                    @if (item.Status == 1)
+                                    {
+                                        <td>
+                                            <span class="badge badge-warning">Đang giao hàng</span>
+                                        </td>
+
+                                    }
+
+                                    else
+                                    {
+                                        <td>
+                                            <span class="badge badge-success">Hoàn thành</span>
+
+                                        </td>
+                                    }
+                                    <td>@item.User.Address</td>
+
+                                    <td>
+                                        @item.CreatedOnUtc
+                                    </td>
+                                </tr>
+                            }
+                            
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer clearfix">
+                <a href="~/Admin/Order/Index" class="btn btn-sm btn-secondary float-right">Xem tất cả</a>
+            </div>
+            <!-- /.card-footer -->
+        </div>
+        <!-- /.card -->
+    </div>
+</section>

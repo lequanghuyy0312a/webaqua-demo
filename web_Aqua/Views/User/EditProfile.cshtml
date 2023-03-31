@@ -1,0 +1,97 @@
+﻿@model web_Aqua.Context.User
+
+@{
+    ViewData["Title"] = "ChangeProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<form method="post" enctype="multipart/form-data" asp-controller="User" asp-action="EditProfile"  class="py-3">
+<div class="d-flex justify-content-center">
+    <div class="col-md-3">
+        <div class="login-box">
+            <div class="card card-outline card-primary">
+                <input type="hidden" asp-for="Avatar" class="form-control" />
+                    <input type="hidden" asp-for="CreateOnUtc" class="form-control" />
+                    <input type="hidden" asp-for="UserId" class="form-control" />
+                    <input type="hidden" asp-for="Email" class="form-control" />
+                    <input type="hidden" asp-for="IsAdmin" class="form-control" />
+                    <input type="hidden" asp-for="Avatar" class="form-control" />
+  
+
+
+                    <div class="card-header text-center">
+                    <a  class="h3">Thay đổi thông tin</a>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+                            <img id="imgViewer" class="profile-user-img img-fluid rounded-circle w-50 pb-2"
+                             src="~/images/users/@Model.Avatar"
+                             alt="User profile picture">
+         
+                            <input asp-for="ImageUpload"
+                                   id="FLFrontImage"
+                                   type="file" name="files"
+                                   multiple
+                                   onchange="document.getElementById('imgViewer').src = window.URL.createObjectURL(this.files[0])" />
+
+                        
+                     </div>
+                    <p class="text-muted mt-5">Chỉ nhập vào dòng thông tin muốn thay đổi</p>
+                    <form action="login.html" method="post">
+                        <div class="input-group mb-3">
+                            <input asp-for="@Model.FirstName" class="form-control" >
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span> <i class="fa fa-user" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input asp-for="@Model.LastName" class="form-control" >
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span> <i class="fa fa-user" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                        </div>                    
+                        <div class="input-group mb-3">
+                            <input asp-for="@Model.Phone" class="form-control">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span> <i class="fa fa-phone" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="input-group mb-3">
+                                <input asp-for="@Model.Address" class="form-control">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span>
+                                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="input-group mb-3">
+                            <input type="password" asp-for="@Model.Password" class="form-control" placeholder="mật khẩu mới">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+                        </div>
+                     
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="submit" value="Submit" class="btn btn-primary btn-block">Lưu thay đổi</button>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </form>
+
+                </div>
+                <!-- /.login-card-body -->
+            </div>
+        </div>
+    </div>
+</div>
+</form>

@@ -4,10 +4,12 @@ using static web_Aqua.Common;
 using System.Data;
 using web_Aqua.Context;
 using X.PagedList;
-
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 namespace web_Aqua.Areas.Admin.Controllers
 {
-    public class ImportProductController : Controller
+	[Authorize(Roles = "Admin")]
+	public class ImportProductController : Controller
     {
         db_aquaponicsContext db_Context = new db_aquaponicsContext();
         private readonly IWebHostEnvironment _webHostEnvironment;

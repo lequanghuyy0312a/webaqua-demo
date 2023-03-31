@@ -36,16 +36,16 @@
 
         @foreach(var item in Model.listBlog.OrderByDescending(o=>o.CreateOnUtc).Take(4))
         {
-            <div class="d-flex align-items-center bg-white mb-3" style="height:110px;">
-                <div class="col-sm-5 ">
-                    <img class="img-fluid " style="width:150px;height:110px" src="~/images/thumbnails/@item.Thumbnail" href="~/Blog/Detail/@item.BlogID" alt="ảnh bìa">
+            <div class="d-flex align-items-center bg-white mb-4" style="height:110px;">
+                <div >
+                    <a href="~/Blog/Detail/@item.BlogID"> <img class="img-fluid " style="width:200px;height:90px" src="~/images/thumbnails/@item.Thumbnail" alt="ảnh bìa"> </a>
                 </div>
-                <div class=" col-sm-7 d-flex flex-column justify-content-center border border-left-0">
+                <div class=" p-3 w-100  d-flex flex-column justify-content-center border border-left-0">
                     <div class="mb-2">
                         <a href="~/Category/Index/@item.CategoryID" class="badge badge-success text-uppercase font-weight-semi-bold p-1 mr-2 text-white">@item.Category.Name</a>
                         <a class="text-body"><small>@item.CreateOnUtc.Value.ToString("dd MMMM yyyy")</small></a>
                     </div>
-                    <a id="ellipsisTitle" class="h6 m-0 text-secondary" href="~/Blog/Detail/@item.BlogID">@item.Title</a>
+                    <a id="ellipsisTitlePartial" class="h6 m-0 text-secondary" href="~/Blog/Detail/@item.BlogID">@item.Title</a>
                 </div>
             </div>
         }
@@ -56,23 +56,23 @@
 <!-- Popular News Start -->
 <div class="mb-3">
     <div class="section-title mb-0">
-        <h4 class="m-0 text-uppercase font-weight-bold text-warning">Bài viết cũ nhất</h4>
+        <h4 class="m-0 text-uppercase font-weight-bold text-warning">Bài viết khác</h4>
     </div>
     <div class="bg-white border border-top-0 p-3">
         @foreach (var item in Model.listBlog.OrderBy(o => o.CreateOnUtc).Take(4))
         {
-            <div class="d-flex align-items-center bg-white mb-3" style="height: 110px;">
-                <div class="col-sm-5 ">
-                    <img class="img-fluid" style="width:170px"  src="~/images/thumbnails/@item.Thumbnail" alt="ảnh bìa">
-                    <a href="~/Blog/Detail/@item.BlogID"> </a>
+            <div class="d-flex align-items-center bg-white mb-4" style="height: 110px;">
+                <div >
+
+                    <a href="~/Blog/Detail/@item.BlogID"> <img class="img-fluid" style="width:200px;height:90px" src="~/images/thumbnails/@item.Thumbnail" alt="ảnh bìa"> </a>
                 </div>
 
-                <div class=" col-sm-7 px-3 d-flex flex-column justify-content-center border border-left-0">
+                <div class=" p-3 w-100  px-3 d-flex flex-column justify-content-center border border-left-0">
                     <div class="mb-2">
                         <a href="~/Category/Index/@item.CategoryID" class="badge badge-success text-uppercase font-weight-semi-bold p-1 mr-2 text-white" >@item.Category.Name</a>
                             <a class="text-body" href=""><small>@item.CreateOnUtc.Value.ToString("dd MMMM yyyy")</small></a>
                     </div>
-                    <a id="ellipsisTitle" class="h6 m-0 text-secondary  " href="~/Blog/Detail/@item.BlogID">@item.Title</a>
+                    <a id="ellipsisTitlePartial" class="h6 m-0 text-secondary  " href="~/Blog/Detail/@item.BlogID">@item.Title</a>
                 </div>
             </div>
         }
@@ -91,7 +91,7 @@
         <div class="input-group mb-2" style="width: 100%;">
             <input type="text" class="form-control form-control-lg" placeholder="Your Email">
             <div class="input-group-append">
-                <a  href="~/Home/Register" class="btn btn-primary font-weight-bold px-3">Đăng ký</a>
+                <a href="~/Home/ContactAndPolicy/Contact" class="btn btn-primary font-weight-bold px-3"><p class="pt-1">Liên hệ</p></a>
             </div>
         </div>
         <small>Chúng tôi cam kết bảo mật thông tin khách hàng</small>
@@ -114,14 +114,16 @@
 </div>
 <!-- Tags End -->
 <style>
-    #ellipsisTitle {
-        max-height: 50px;
+    #ellipsisTitlePartial {
+        padding:5px;
+
+        max-height: 45px;
         overflow: hidden;
         text-overflow: ellipsis;
         -webkit-line-clamp: 2;
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        width: 300px
+        max-width: 100%;
     }
 </style>
-</div>
+

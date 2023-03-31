@@ -1,21 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting.Internal;
 using System.Data;
-using System.Drawing;
-using System.Drawing.Printing;
-
 using web_Aqua.Context;
 using web_Aqua.Models;
 using X.PagedList;
 using static web_Aqua.Common;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace web_Aqua.Areas.Admin.Controllers
 {
-
-    public class ProductController : Controller
+	[Authorize(Roles = "Admin")]
+	public class ProductController : Controller
     {
 
         db_aquaponicsContext db_Context = new db_aquaponicsContext();
@@ -27,11 +24,8 @@ namespace web_Aqua.Areas.Admin.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public bool IsNumeric(string input)
-        {
-            int test;
-            return int.TryParse(input, out test);
-        }
+       
+
         [Area("Admin")]
         public IActionResult Index(int? page, string SearchString, string currentFilter)
         {
@@ -61,10 +55,10 @@ namespace web_Aqua.Areas.Admin.Controllers
                 ViewBag.listProductCount = listProduct.Count;
 
             }
-
-            ViewBag.CurrentFilter = SearchString;
            
+            ViewBag.CurrentFilter = SearchString;
 
+          
             page = page < 1 ? 1 : page;
             int pagesize = 5;
             int pageNumber = (page ?? 1);

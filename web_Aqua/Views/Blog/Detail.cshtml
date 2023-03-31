@@ -57,48 +57,18 @@
 
                         </div>
                         <p class="m-0 my-3 h4 text-uppercase font-weight-bold">sản phẩm đề xuất</p>
-
-                        <div class="row no-gutters items-wrap ">
-                            @foreach (var item in Model.listProduct.Where(p=>p.CategoryId == Model.blog.CategoryID).Take(4))
-                            {
-                                <div class="col-md col-6 text-center">
-                                    <div>
-                                        <a href="@Url.Action("Detail", "Product", new{ID=item.ProductId})" class="img-wrap">
-                                            @*@Html.ActionLink(item.Name, "Detail", "Detail", new{ID=item.ProductId}, null)*@
-                                            <a href="~/Product/Detail/@item.ProductId">
-                                                <img class="border border-dark" style="width:200px;height:170px" src="~/images/items/@item.Avatar">
-                                            </a>
-
-                                        </a>
-                                        <div class="text-wrap p-3">
-                                            <div>
-                                                <span class="badge badge-danger"> @item.Category.Name</span>
-                                                <span class="text-body"><strong>@(Decimal.Parse(item.Price).ToString("n0"))</strong> </span><br />
-
-                                            </div>
-                                            <div class="pt-2">
-                                                <a class=" h6 m-0 text-secondary title text-uppercase font-weight-bold" href="~/Product/Index/@item.ProductId">@Html.Raw(item.Name)</a><br />
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                </div> <!-- col.// -->
-                            }
+                        @await Html.PartialAsync("_ProductBottomPartial")
+                   
                         </div>
 
-                    </div>
+   
 
                 </div>
-
-
-                <div class="col-lg-4">
+                <div class="col-lg-4" style="max-width:500px; min-width:10px; padding:10px;clear: both;">
                     @await Html.PartialAsync("_BlogPartial")
                 </div>
-            </div>
-          
-				
-			</div>
+            </div>         				
+	
         </div>
        
 </section>

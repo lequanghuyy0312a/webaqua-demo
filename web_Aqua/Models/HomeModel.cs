@@ -17,17 +17,27 @@ namespace web_Aqua.Models
         public List<OrderDetail> listOrderDetail { get; set; }
         public List<OrderDetail> listOrderDetailFull { get; set; }
         public List<Order> listOrder { get; set; }
+        public List<Order> listOrder1 { get; set; }
+        public List<Order> listOrder2 { get; set; }
+
+
 
         public List<User> listUser { get; set; }
         public List<Blog> listBlog { get; set; }
 
 
+        public List<ContactAndPolicy> listCAP { get; set; }
 
-		public List<Product> listProductShowPage { get; set; }
+        public List<Product> listProductShowPage { get; set; }
         public Blog blog { get; set; }
 		public Category category { get; set; }
         public Product product { get; set; }
+		public User user { get; set; }
+        public Order order { get; set; }
 
+
+
+        public ContactAndPolicy contactAndPolicy { get; set; }
         internal string? ToPagedList(int pageNumber, int pagesize)
         {
             throw new NotImplementedException();

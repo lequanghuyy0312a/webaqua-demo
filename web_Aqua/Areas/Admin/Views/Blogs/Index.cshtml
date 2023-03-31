@@ -1,5 +1,8 @@
-﻿@model IEnumerable<web_Aqua.Context.Blog>
+﻿@using X.PagedList;
+@using X.PagedList.Mvc;
+@using X.PagedList.Mvc.Core;
 
+@model X.PagedList.IPagedList<web_Aqua.Context.Blog>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -9,36 +12,57 @@
     <h2 id="title">Danh sách bài viết</h2>
     <span id="hr"></span>
 </div>
+<form method="get" enctype="multipart/form-data" asp-controller="Blogs" asp-action="Index">
+    <div style="text-align: center;" class="d-block ml-auto mr-auto">
+        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new {@class=" h5 border border-success rounded <em>" , placeholder = "Nhập danh mục" })
+        <input class="btn btn-link text-success <strong> " type="submit" value="Tìm kiếm" />
+    </div>
+    <div class="d-flex">
+        <div class="py-3">
+            <a class="btn btn-secondary" asp-action="Index" asp-controller="Blog">
+                <i class="fas fa-sync"></i>
+            </a>
+
+        </div>
+        <div class="ml-1">
+            <strong class="align-text-bottom" id="countrow"> @ViewBag.listBlogCount bài viết </strong>
+        </div>
+
+        <div class="pagination ml-auto py-2">
+            @Html.PagedListPager(Model, page=>Url.Action("Index","Blogs", new {page=page}))
+        </div>
+    </div>
+</form>
 
 <table  id="casti_male" class="table  table-hover" ;>
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Thumbnail)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Thumbnail)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BlogID)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().BlogID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryID)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Description)
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.CreateOnUtc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserID)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().CategoryID)
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.ShowOnHomePage)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().CreateOnUtc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().UserID)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().ShowOnHomePage)
             </th>
             <th class="text-center">
                 <a style="width:100px; font-size:16px;" asp-action="AddOrEdit" class="btn btn-primary btn-lg" asp-controller="Blogs">

@@ -42,7 +42,6 @@
 
 </head>
 <body>
-
 	<header class="section-header">
 		<section class="header-main border-bottom">
 			<div class="container">
@@ -73,31 +72,44 @@
 					</div> <!-- col.// -->
 					<div class="col-xl-4 col-lg-4 col-md-6">
 						<div class="widgets-wrap float-md-right">
-							<div class="widget-header mr-3">
+							<div class="widget-header">
 								<a  class="widget-view"> </a>
-									
-									@if (@accessor.HttpContext.Session.GetInt32("UserId") != null)
-										{
-											<div class="icon-area">
-												<i class="fa fa-user"></i>
-											</div>
 
-										<a href="~/Admin/Home/Index"> @accessor.HttpContext.Session.GetString("FullName") </a>
-											<abbr>|</abbr>
-											<a href="~/Home/Logout" class="btn btn-link" > Đăng xuất</a>
-										}
-									else 
-										{
+								@if (@accessor.HttpContext.Session.GetInt32("UserId") != null)
+								{
+								
+									@if (ViewBag.IsAdmin == true)
+									{
+										<div class="icon-area">
+											<a class="fa fa-user" href="~/Admin/Home/Index"></a>
+										</div>
+										<a href="~/Admin/Home/Index"> Admin</a>
+									}
+									else
+									{
+										<div class="icon-area">
+											<a class="fa fa-user" href="~/User/Profile"></a>
+										</div>
+										<a href="~/User/Profile/@accessor.HttpContext.Session.GetInt32("UserId")">
+											@accessor.HttpContext.Session.GetString("FirstName")
+										</a>
+									}
+
+									<abbr class="ml-3">|</abbr>
+									<a href="~/Home/Logout" class="btn btn-link"> Đăng xuất</a>
+								}
+								else
+								{
 									<a href="~/Home/Register" class="btn btn-link"> Đăng Ký</a>
-											<abbr>|</abbr>
+									<abbr>|</abbr>
 									<a href="~/Home/Login" class="btn btn-link"> Đăng nhập</a>
-										}									
+								}
 
-									
+
 								</>
 							</div>
 							@*Order*@
-							<div class="widget-header mr-3">
+							<div class="widget-header">
 								@await Html.PartialAsync("_OrderPartial")
 							</div>
 							@* Cart *@
@@ -125,9 +137,9 @@
 							<div class="dropdown-menu">
 								<a class="dropdown-item" href="~/Product/Index">Sản phẩm</a>
 								<a class="dropdown-item" href="~/Blog/Index">Bài viết</a>
-								<a class="dropdown-item" href="~/User/Index">Tài Khoản</a>
-								<a class="dropdown-item" href="~/Home/Contact">Liên hệ</a>
-								<a class="dropdown-item" href="#">Điều khoản và dịch vụ</a>
+								<a class="dropdown-item" href="~/User/Profile">Tài Khoản</a>
+								<a class="dropdown-item" href="~/ContactAndPolicy/Contact">Liên hệ</a>
+								<a class="dropdown-item" href="~/ContactAndPolicy/Policy">Điều khoản và dịch vụ</a>
 							</div>
 						</li>
 						<li class="nav-item">
@@ -137,10 +149,10 @@
 							<a class="nav-link" href="~/Blog/Index">Bài viết</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="~/Home/Contact">Liên hệ</a>
+							<a class="nav-link" href="~/ContactAndPolicy/Contact">Liên hệ</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">Điều khoản và dịch vụ</a>
+							<a class="nav-link" href="~/ContactAndPolicy/Policy">Điều khoản và dịch vụ</a>
 						</li>
 
 						<li class="nav-item dropdown">
@@ -156,9 +168,14 @@
 				</div> <!-- collapse .// -->
 			</div> <!-- container .// -->
 		</nav>
-	</header> <!-- section-header.// -->
+	</header>
 
-	<partial name="_NotifyPartial" />
+	<div class="container">
+		<partial class="m-3" name="_NotifyPartial" />
+	</div>
+
+
+
 	@RenderBody()
 
 

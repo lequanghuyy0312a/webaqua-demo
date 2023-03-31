@@ -1,0 +1,156 @@
+﻿@using X.PagedList;
+@using X.PagedList.Mvc;
+@using X.PagedList.Mvc.Core;
+
+@model X.PagedList.IPagedList<web_Aqua.Context.Order>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+    @*Tittle*@
+    <div id="headings">
+        <h2 id="title">Danh sách đơn hàng</h2>
+        <span id="hr"></span>
+    </div>
+    <div class="card-body" style="margin:0 auto; float:none;">
+
+        <form method="get" enctype="multipart/form-data" asp-controller="Order" asp-action="Index">
+            <div style="text-align: center;" class="d-block ml-auto mr-auto">
+                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new {@class=" mw-100 h5 border border-success rounded  " , placeholder = "Nhập ngày" })
+                <input class="btn btn-link text-success <strong> " type="submit" value="Tìm kiếm" />
+            </div>
+            <div class="d-flex">
+                <div class="py-3">
+                    <a class="btn btn-secondary" asp-action="Index" asp-controller="Order">
+                        <i class="fas fa-sync"></i>
+                    </a>
+
+                </div>
+                <div class="ml-1">
+
+                <strong class="align-text-bottom" id="countrow"> @ViewBag.listOrderCount đơn hàng </strong>
+                </div>
+
+       
+
+                <div class=" pagination ml-auto py-2">
+                    @Html.PagedListPager(Model, page=>Url.Action("Index","Order", new {page=page}))
+                </div>
+            </div>
+        </form>
+
+        <div class="">
+            @*Table*@
+            <table id="casti_male" class="table  table-hover" style="overflow:hidden; white-space: nowrap; ">
+                <thead>
+                <tr >
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().OrderId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
+
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().UserId)
+
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Status)
+
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().CreatedOnUtc)
+
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().User.Address)
+
+                        </th>
+
+            </thead>
+            <tbody >
+             
+                @foreach (var item in Model)
+                {
+                    string fullname = item.User.FirstName + " " + item.User.LastName;
+        
+                        <tr>
+                             <td>
+
+                                @Html.DisplayFor(modelItem => item.OrderId)
+                            </td>
+                                                                
+                            <td >
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem =>  fullname)
+                            </td>
+                          
+                                @if (item.Status == 1)
+                                {
+                                <td>
+                                    <span class="badge badge-warning">Đang giao hàng</span>
+                                </td>
+                            
+                                }
+
+                                else
+                                {
+                                 <td>
+                                <span class="badge badge-success">Hoàn thành</span>
+
+                                </td>
+                                }
+                            <td>
+
+                                @Html.DisplayFor(modelItem => item.CreatedOnUtc)
+                                </td>
+                        <td>
+                            @Html.DisplayFor(modelItem =>  item.User.Address)
+                        </td>
+
+                            <td style=" text-align: center;">
+
+                            <div class="btn-group btn-group-sm">
+                                <a asp-route-id="@item.OrderId" asp-controller="Order" asp-action="Details" class="btn btn-sm btn-info">
+                                    <i class="fas fa-search"></i>
+                                </a>
+                            <form asp-route-id="@item.OrderId" asp-action="Edit" asp-controller="Order">
+                                    <button type="submit" class="btn btn-sm btn-warning mx-2"
+                                            onclick="return confirm('Xác nhận hoàn hành đơn [ @item.OrderId - @item.Name ] ?')">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                            </form>
+                                 <form asp-route-id="@item.OrderId" asp-action="Delete" asp-controller="Order">
+
+                                    <button type="submit" class="btn btn-sm btn-danger "
+                                            onclick="return confirm('Bạn có muốn xoá đơn [ @item.OrderId - @item.Name ] ?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+
+                                </form>
+                            </div>
+
+                        </td>
+                        </tr>                   
+
+                }
+                </tbody>
+
+            </table>
+
+            @*Bottom Paging*@
+            <div class="pagination float-right">
+                @Html.PagedListPager(Model, page=>Url.Action("Index","Order", new {page=page}))
+            </div>
+
+
+        </div>
+    </div>
+
+

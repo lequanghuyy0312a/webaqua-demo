@@ -1,0 +1,58 @@
+﻿@model web_Aqua.Models.HomeModel
+@{
+    ViewData["Title"] = "Policy";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    int stt = 0;
+}
+<div class="content-wrapper mt-3">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Chính sách và Điều khoản</h1>
+                </div>
+
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-body row">
+
+
+                <div class="col-sm-5 col-12">
+
+                    @foreach (var item in Model.listCAP)
+                    {
+                        <a class=" font-italic" href=~/ContactAndPolicy/Policy/@item.Id>
+                            <h5 class="mb-3">
+                                <u> @item.Name </u>
+                            </h5>  
+                        </a>
+                     
+                    }
+
+
+                </div>
+                <div class="col-sm-7 col-12">
+                    <h4 class="text-primary">   @Html.Raw(Model.contactAndPolicy.Name)  </h4>
+                    <div class="border mt-3 p-3">
+                        @Html.Raw(Model.contactAndPolicy.Content)
+
+                    </div>
+                </div>
+      
+            </div>
+        </div>
+
+    </section>
+    <!-- /.content -->
+</div>
+
+

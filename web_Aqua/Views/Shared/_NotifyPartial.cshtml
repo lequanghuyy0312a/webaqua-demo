@@ -1,7 +1,7 @@
 ﻿@if(TempData["Success"]!= null){
-    <div class="d-flex row col-12">
-        <div class=" alert alert-light notify col-sm-1 color-">THÔNG BÁO</div>
-        <div class=" alert alert-success notify col-sm-11 pl-3">
+    <div class="d-flex row col-12" >
+        <div class="text-center alert text-white  col-sm-2" style="margin-right:-5px; background-color:darkgreen ">THÔNG BÁO</div>
+        <div class=" alert  alert-success  col-sm-10 pl-3">
             @TempData["Success"]
         </div>
         
@@ -12,8 +12,8 @@
 @if (TempData["Error"] != null)
 {
     <div class="d-flex row col-12">
-        <div class=" alert alert-light notify col-sm-1">THÔNG BÁO</div>
-        <div class=" alert alert-warning notify col-sm-11 pl-3">
+        <div class=" alert col-sm-1 text-white text-center " style="margin-right:-5px; background-color:darkred">THÔNG BÁO</div>
+        <div class=" alert alert-danger  col-sm-11 pl-3" style="margin-left:-5px">
             @TempData["Error"]
         </div>
     </div>

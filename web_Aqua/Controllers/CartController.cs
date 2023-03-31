@@ -4,13 +4,13 @@ using Newtonsoft.Json;
 using web_Aqua.Helpers;
 using web_Aqua.Models;
 using web_Aqua.Context;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.DotNet.Scaffolding.Shared.Messaging;
+
 using Microsoft.CodeAnalysis;
 
 namespace web_Aqua.Controllers
 {
-	public class CartController : Controller
+
+    public class CartController : Controller
 	{
 		db_aquaponicsContext db_context = new db_aquaponicsContext();
         private readonly IHttpContextAccessor _contextAccessor;
@@ -123,51 +123,69 @@ namespace web_Aqua.Controllers
 		// thanh toán
 		public IActionResult CheckOut()
 		{
+            var cart = GetCartItems();
+
 			try
 			{
-                int? userID = _contextAccessor.HttpContext.Session.GetInt32("UserId");
+				int? userID = _contextAccessor.HttpContext.Session.GetInt32("UserId");
                 if (userID == null)
                 {
                     return RedirectToAction("Login", "Home");
                 }
                 else
-                {
-                    var listCartCheckOut = GetCartItems();
-                    Order objOder = new Order();
-                    objOder.Name = "DonHang" + DateTime.Now.ToString("yyyyMMddHHmmss");
-                    objOder.UserId = userID;
-                    objOder.CreatedOnUtc = DateTime.Now;
-                    objOder.Status = 1;
+                { 
+					var checkphone = db_context.Users.Where(u=>u.UserId == userID).FirstOrDefault();
+					if (checkphone.Address.Length > 10 )
+					{
+                        if (cart.Count > 0)
+                        {
+                            var listCartCheckOut = GetCartItems();
+                            Order objOder = new Order();
+                            objOder.Name = "DonHang" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                            objOder.UserId = userID;
+                            objOder.CreatedOnUtc = DateTime.Now;
+                            objOder.Status = 1;
 
-                    db_context.Orders.Add(objOder);
-                    db_context.SaveChanges(); //lưu vào db
+                            db_context.Orders.Add(objOder);
+                            db_context.SaveChanges(); //lưu vào db
 
-                    int OrderID = objOder.OrderId;   //lấy id đơn hàng đưa vào bảng OrderDetail
-                    List<OrderDetail> listOD = new List<OrderDetail>();
+                            int OrderID = objOder.OrderId;   //lấy id đơn hàng đưa vào bảng OrderDetail
+                            List<OrderDetail> listOD = new List<OrderDetail>();
 
-                    foreach (var item in listCartCheckOut)
-                    {
-                        OrderDetail objOD = new OrderDetail();
-                        objOD.Quantity = item._shoppingQuantity;
-                        objOD.OrderId = OrderID;
-                        objOD.ProductId = item._shoppingProduct.ProductId;
-                        listOD.Add(objOD);//lưu qua bảng OD
+                            foreach (var item in listCartCheckOut)
+                            {
+                                OrderDetail objOD = new OrderDetail();
+                                objOD.Quantity = item._shoppingQuantity;
+                                objOD.OrderId = OrderID;
+                                objOD.ProductId = item._shoppingProduct.ProductId;
+                                listOD.Add(objOD);//lưu qua bảng OD
+                            }
+
+                            db_context.OrderDetails.AddRange(listOD);
+                            db_context.SaveChanges();
+                            ClearCart();
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Cart");
+                        }
                     }
-
-                    db_context.OrderDetails.AddRange(listOD);
-                    db_context.SaveChanges();
-                    ClearCart();
-
+					else
+					{
+						TempData["Error"] = "Vui lòng cập nhật địa chỉ và số điện thoại";
+                        return RedirectToAction("EditProfile", "User");
+                    }
                 }
                 return RedirectToAction("Index", "OrderDetail");
-            }
-			catch {
-                return RedirectToAction("Index", "OrderDetail");
+			}
+			catch
+			{
+				return RedirectToAction("Index", "Cart");
 
-            }
+			}
 
-            //return RedirectToAction("Cart", "Payment");
-        }
+			//return RedirectToAction("Cart", "Payment");
+		}
         //xoá toàn bộ sản phẩm trong giỏ hàng
         void ClearCart()
         {

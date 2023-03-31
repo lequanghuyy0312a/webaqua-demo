@@ -42,7 +42,7 @@
 
                                     <a  class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold"
                                    asp-controller="Blog" asp-action="Detail" asp-route-id="@item.BlogID">
-                                        <p id="ellipsisTitle">@Html.Raw(item.Title) </p>
+                                        <p id="ellipsisTitleIndex">@Html.Raw(item.Title) </p>
                                     </a>
                                    
                                     <p class="m-0  text-truncate">
@@ -68,20 +68,20 @@
                         <h4>Trong nước</h4>
                         @foreach (var item in Model.listBlog.Where(n=>n.Country== true).Take(4))
                         {
-                            <div class="d-flex align-items-center bg-white mb-3" style="height: 110px;">
+                            <div class="d-flex bg-white mb-4" style="height: 110px;">
 
-                              <a class="col-sm-4" asp-action="Detail" asp-route-id="@item.BlogID"  >
-                                    <img asp-controller="Blog" style="object-fit:cover;height:110px;" class="img-fluid" src="~/images/thumbnails/@item.Thumbnail" alt="ảnh bìa">
+                              <a  asp-action="Detail" asp-route-id="@item.BlogID"  >
+                                    <img asp-controller="Blog" style="object-fit:cover; width:300px;height:110px" class="img-fluid" src="~/images/thumbnails/@item.Thumbnail" alt="ảnh bìa">
                              </a>
 
-                                <div class="col-sm-8 px-3 d-flex flex-column justify-content-center border border-left-0">
+                                <div class=" w-100 px-3 d-flex flex-column border border-left-0">
                                         <div class="mb-2">
                                         <a class="badge badge-success  font-weight-semi-bold p-1 mr-2" href="~/Category/Index/@item.CategoryID">@item.Category.Name</a>
 										<a class="text-body"><small>@item.CreateOnUtc.Value.ToString("dd MMMM yyyy")</small></a>
                                         </div>
                                         <a class="h6 m-0 text-secondary  font-weight-bold"
                                    asp-controller="Blog" asp-action="Detail" asp-route-id="@item.BlogID" >
-                                        <p id="ellipsisTitle"> @Html.Raw(item.Title) </p>
+                                        <p id="ellipsisTitleIndex"> @Html.Raw(item.Title) </p>
                                         </a>
                                     </div>
                                 </div>
@@ -92,18 +92,18 @@
                             <h4>Thế giới</h4>
                             @foreach (var item in Model.listBlog.Where(n => n.Country == false).Take(4))
                             {
-                                <div class="d-flex align-items-center bg-white mb-3" style="height: 110px;">
-                                <a class="col-sm-4" asp-action="Detail" asp-route-id="@item.BlogID">
-                                    <img asp-controller="Blog" style="object-fit:cover;height:110px;" class="img-fluid" src="~/images/thumbnails/@item.Thumbnail" alt="ảnh bìa">
+                                <div class="d-flex bg-white mb-4" style="height: 110px;">
+                                <a  asp-action="Detail" asp-route-id="@item.BlogID">
+                                    <img asp-controller="Blog" style="object-fit:cover;width:300px;height:110px" class="img-fluid" src="~/images/thumbnails/@item.Thumbnail" alt="ảnh bìa">
                                 </a>
-                                <div class="col-sm-8 px-3 d-flex flex-column justify-content-center border border-left-0">
+                                <div class=" w-100 px-3 d-flex flex-column  border border-left-0">
                                         <div class="mb-2">
                                             <a class="badge badge-success font-weight-semi-bold p-1 mr-2" href="~/Category/Index/@item.CategoryID">@item.Category.Name</a>
 										<a class="text-body"><small>@item.CreateOnUtc.Value.ToString("dd MMMM yyyy")</small></a>
                                         </div>
                                         <a class="h6 m-0 text-secondary font-weight-bold" 
                                         asp-controller="Blog" asp-action="Detail" asp-route-id="@item.BlogID" >
-                                        <p id="ellipsisTitle"> @Html.Raw(item.Title) </p>
+                                        <p id="ellipsisTitleIndex"> @Html.Raw(item.Title) </p>
                                     </a>
                                     </div>
                                 </div>                        
@@ -123,8 +123,8 @@
 </section>
 
 <style>
-    #ellipsisTitle {
-        max-height: 50px;
+    #ellipsisTitleIndex {
+        max-height: 600px;
         overflow: hidden;
         text-overflow: ellipsis;
         -webkit-line-clamp: 2;

@@ -20,6 +20,7 @@
                     <th scope="col">Ngày đặt hàng</th>
                     <th scope="col" max-width="150"></th>
                  </tr>
+               
                 @foreach(var item in Model)
                 {
                     <tr>
@@ -55,6 +56,14 @@
                     </tr>
                 }
         </table>
+        @if (stt < 1)
+        {
+            <div class="text-center alert alert-danger">
+                <h3>Không có đơn hàng</h3>
+
+                <img src="~/images/noitem.jpg" />
+            </div>
+        }
     </div>
 
 </div>
