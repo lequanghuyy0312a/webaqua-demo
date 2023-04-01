@@ -8,3 +8,6 @@ Chức năng:
   - Phân quyền sử dụng website sau khi đăng nhập.
 Công nghệ sử dụng:
   - ASP.NET MVC, C#, Entity Framework, SQL
+
+** Demo: https://goeco.link/UBgzN
+   Database: https://goeco.link/BYuXO
