@@ -19,7 +19,7 @@ builder.Services.AddSession(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<db_aquaponicsContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("db_aquaponics")))  ;
+builder.Services.AddDbContext<db_aquaponicsContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")))  ;
 builder.Services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddDistributedMemoryCache();
@@ -54,10 +54,21 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("~/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.Use(async (context, next) =>
+{
+    await next();
+    if (context.Response.StatusCode == 404)
+    {
+        context.Request.Path = "/Home/Index";
+        await next();
+
+    }
+});
 
 
 app.UseHttpsRedirection();
@@ -65,7 +76,6 @@ app.UseStaticFiles();
 app.UseSession();
 app.UseRouting();
 app.UseAuthentication();
-
 
 app.UseAuthorization();
 

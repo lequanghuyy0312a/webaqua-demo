@@ -22,7 +22,7 @@
     <div class="container-fluid">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-8 col-12">
                     <div class="row align-items-center">
                         <h1 class="ml-2 text-uppercase font-weight-bold"> @Html.Raw(Model.blog.Title)  </h1>
 
@@ -64,7 +64,7 @@
    
 
                 </div>
-                <div class="col-lg-4" style="max-width:500px; min-width:10px; padding:10px;clear: both;">
+                <div class="col-lg-4 col-12" style="max-width:500px; min-width:10px; padding:10px;clear: both;">
                     @await Html.PartialAsync("_BlogPartial")
                 </div>
             </div>         				

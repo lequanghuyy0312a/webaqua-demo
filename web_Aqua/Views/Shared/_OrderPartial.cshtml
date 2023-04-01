@@ -7,11 +7,11 @@
 @{
     int? userid = @accessor.HttpContext.Session.GetInt32("UserId");
     db_aquaponicsContext db_context = new db_aquaponicsContext();
-  
+
 
     if (userid > 0)
     {
-        var orderCount = db_context.Orders.Where(o=>o.UserId == userid).ToList().Count;
+        var orderCount = db_context.Orders.Where(o => o.UserId == userid).Where(o=>o.Status==1).ToList().Count;
         <div class="nav-item">
             <a asp-action="Index" asp-controller="OrderDetail" asp-route-itemid="@userid" class="widget-view">
                 <div class="icon-area">
@@ -25,17 +25,17 @@
             </a>
         </div>
     }
-        else 
-        {
-            <div class="nav-item">
+    else
+    {
+        <div class="nav-item">
             <a href="~/OrderDetail/Index" class="widget-view">
-                    <div class="icon-area">
-                        <i class="fa fa-store"></i>
-                    </div>
-                            <small class="text"> Đơn hàng </small>
-                </a>
-            </div>
+                <div class="icon-area">
+                    <i class="fa fa-store"></i>
+                </div>
+                <small class="text"> Đơn hàng </small>
+            </a>
+        </div>
 
-        }
+    }
 }
 

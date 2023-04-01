@@ -17,8 +17,7 @@ namespace web_Aqua.Models
         public List<OrderDetail> listOrderDetail { get; set; }
         public List<OrderDetail> listOrderDetailFull { get; set; }
         public List<Order> listOrder { get; set; }
-        public List<Order> listOrder1 { get; set; }
-        public List<Order> listOrder2 { get; set; }
+
 
 
 

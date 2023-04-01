@@ -15,6 +15,8 @@ namespace web_Aqua.Controllers
 		{
 			_contextAccessor = httpContextAccessor;
 		}
+
+		// load
 		public IActionResult Index(int? ID)
 		{
 
@@ -41,6 +43,8 @@ namespace web_Aqua.Controllers
 			return View(objHomeModel);
 
 		}
+
+		// xem chi tiết
 		public IActionResult Detail(int ID)
 		{
 			HomeModel objHomeModel = new HomeModel();

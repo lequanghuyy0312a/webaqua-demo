@@ -9,7 +9,6 @@ namespace web_Aqua.Controllers
 		db_aquaponicsContext objdb_aquaponicsContext = new db_aquaponicsContext();
 
 		//danh sách loại sản phẩm
-
 		public IActionResult Index(int? ID)
 		{
 

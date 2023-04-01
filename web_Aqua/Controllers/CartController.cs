@@ -21,6 +21,7 @@ namespace web_Aqua.Controllers
         }
         public const string CARTKEY = "cart";
 
+		// giỏ hàng
 		List<CartModel> GetCartItems()
 		{
 			var session = HttpContext.Session;
@@ -32,7 +33,7 @@ namespace web_Aqua.Controllers
 			
 			return new List<CartModel>();
 		}
-		// lưu giỏ hàng
+		// lưu vào giỏ hàng
 		void SaveCartSession(List<CartModel> listCart)
 		{
 			var session = HttpContext.Session;
@@ -40,6 +41,7 @@ namespace web_Aqua.Controllers
 			session.SetString(CARTKEY, jsoncart);
 		}
 
+		// load view Xem giỏ hàng
 		public IActionResult Index()
 		{
 			ViewBag.countCart = GetCartItems().Count;
@@ -47,6 +49,7 @@ namespace web_Aqua.Controllers
 
 		}
 
+		// thêm sản phẩm vào giỏ hàng
 		public IActionResult AddToCart(int id, int quantity = 1)
 		{
 			try
@@ -124,7 +127,6 @@ namespace web_Aqua.Controllers
 		public IActionResult CheckOut()
 		{
             var cart = GetCartItems();
-
 			try
 			{
 				int? userID = _contextAccessor.HttpContext.Session.GetInt32("UserId");
@@ -135,7 +137,7 @@ namespace web_Aqua.Controllers
                 else
                 { 
 					var checkphone = db_context.Users.Where(u=>u.UserId == userID).FirstOrDefault();
-					if (checkphone.Address.Length > 10 )
+					if (checkphone.Address.Length > 10 && checkphone.Address.Length != null)
 					{
                         if (cart.Count > 0)
                         {
@@ -180,12 +182,13 @@ namespace web_Aqua.Controllers
 			}
 			catch
 			{
-				return RedirectToAction("Index", "Cart");
+                TempData["Error"] = "Vui lòng cập nhật địa chỉ và số điện thoại";
+                return RedirectToAction("EditProfile", "User");
 
-			}
+            }
 
-			//return RedirectToAction("Cart", "Payment");
 		}
+
         //xoá toàn bộ sản phẩm trong giỏ hàng
         void ClearCart()
         {

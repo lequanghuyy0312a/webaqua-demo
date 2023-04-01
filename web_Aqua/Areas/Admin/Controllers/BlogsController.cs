@@ -18,12 +18,15 @@ namespace web_Aqua.Areas.Admin.Controllers
     {
         db_aquaponicsContext db_Context = new db_aquaponicsContext();
         private readonly IWebHostEnvironment _webHostEnvironment;
+		private readonly IHttpContextAccessor _contextAccessor;
 
 
-        public BlogsController(IWebHostEnvironment webHostEnvironment)
-        {
-            _webHostEnvironment = webHostEnvironment;
-        }
+		public BlogsController(IWebHostEnvironment webHostEnvironment, IHttpContextAccessor httpContextAccessor)
+		{
+			_webHostEnvironment = webHostEnvironment;
+			_contextAccessor = httpContextAccessor;
+		}
+
 
         [Area("Admin")]
         public IActionResult Index(int? page, string SearchString, string currentFilter)
@@ -41,12 +44,12 @@ namespace web_Aqua.Areas.Admin.Controllers
 
             if (!string.IsNullOrEmpty(SearchString))
             {
-                listBlog = db_Context.Blogs.Include(c => c.Category).OrderByDescending(n => n.BlogID).Where(n => n.Title.Contains(SearchString)).ToList();
+                listBlog = db_Context.Blogs.Include(u => u.User).Include(c => c.Category).OrderByDescending(n => n.BlogID).Where(n => n.Title.Contains(SearchString)).ToList();
                 ViewBag.listBlogCount = listBlog.Count;
             }
             else
             {
-                listBlog = db_Context.Blogs.Include(c => c.Category).OrderByDescending(n => n.BlogID).ToList();
+                listBlog = db_Context.Blogs.Include(u => u.User).Include(c => c.Category).OrderByDescending(n => n.BlogID).ToList();
 
                 //listProduct = db_Context.Products.ToList();
                 ViewBag.listBlogCount = listBlog.Count;
@@ -93,7 +96,7 @@ namespace web_Aqua.Areas.Admin.Controllers
 
             }
             else
-                return View(db_Context.Blogs.Find(ID));
+                return View(db_Context.Blogs.Include(b=>b.User).Where(b=>b.BlogID == ID).FirstOrDefault());
         }
         //post
         [HttpPost]
@@ -130,36 +133,39 @@ namespace web_Aqua.Areas.Admin.Controllers
                 {
                     objBlog.Thumbnail = img;
                 }
-            }
+
+				objBlog.UserID = _contextAccessor.HttpContext.Session.GetInt32("UserId");
+				if (objBlog.BlogID != 0)
+				{
+					//  objBlog.CreateOnUtc = saveDatetime;
+					db_Context.Entry(objBlog).State = EntityState.Modified;
+					TempData["Success"] = "Đã sửa thông tin bài viết: " + "[" + objBlog.BlogID + " - " + objBlog.Title + "]";
+
+				}
+				else
+				{
+					objBlog.CreateOnUtc = DateTime.Now;
+					db_Context.Blogs.Add(objBlog);
+					TempData["Success"] = "Đã thêm bài viết: " + "[ " + objBlog.Title + " ]";
+				}
+
+				db_Context.SaveChanges();
+				return RedirectToAction(nameof(Index));
+			}
 
             catch (Exception ex)
             {
-            }
-            if (objBlog.BlogID != 0)
-            {
-                //  objBlog.CreateOnUtc = saveDatetime;
-                db_Context.Entry(objBlog).State = EntityState.Modified;
-                TempData["Success"] = "Đã sửa thông tin bài viết: " + "[" + objBlog.BlogID + " - " + objBlog.Title + "]";
+				return RedirectToAction("AddOrEdit", "Blogs");
 
-            }
-            else
-            {
-                objBlog.CreateOnUtc = DateTime.Now;
-                db_Context.Blogs.Add(objBlog);
-                TempData["Success"] = "Đã thêm bài viết: " + "[ "+objBlog.Title+" ]";
-            }
-
-            db_Context.SaveChanges();
-            return RedirectToAction(nameof(Index));         
-
-        }
+			}
+		}
 
 
 
         [HttpPost]
         [Area("Admin")]
-        [Route("/imageupload", Name = "imageupload")]
-        public JsonResult UploadFile(List<IFormFile> uploadedFiles)
+        [Route("/imageuploadblog", Name = "imageuploadblog")]
+        public JsonResult UploadFileBlog(List<IFormFile> UploadFileBlog)
         {
             string webRootPath1 = _webHostEnvironment.WebRootPath;
             string contentRootPath1 = _webHostEnvironment.ContentRootPath;
@@ -171,7 +177,7 @@ namespace web_Aqua.Areas.Admin.Controllers
             var filePath1s = new List<string>();
             string newFileName1 = "";
 
-            foreach (var formFile1 in uploadedFiles)
+            foreach (var formFile1 in UploadFileBlog)
             {
                 var filePath1 = "";
                 newFileName1 = long.Parse(DateTime.Now.ToString("yyyyMMddhhmmss")) + "_" + formFile1.FileName;
@@ -186,8 +192,11 @@ namespace web_Aqua.Areas.Admin.Controllers
                 }
                 returnImagePath1 = filePath1;
             }
-            return Json("/images/blogs/"+ newFileName1);
+            return Json("/images/blogs/" + newFileName1);
         }
+
+
+
         public void LoadDropMenu()
         {
             ListtoDataTableConverter converter = new ListtoDataTableConverter();

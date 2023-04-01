@@ -1,41 +1,40 @@
 ﻿@model web_Aqua.Models.HomeModel
 
-<div class = "row">
+<div class="row">
 
-	@foreach(var item in Model.listProductFull.Take(8))
-	{
+    @foreach (var item in Model.listProductFull.Take(8))
+    {
 
-		<div class="col-md-3 col-sm-6 mb-3">
-		<article class="card card-post">
-			 <a href="~/Product/Detail/@item.ProductId"> <img src="~/images/items/@item.Avatar"  class="card-img-top"> 
-				</a>
+        <div class="col-md-3 col-sm-6 mb-3">
+            <article class="card card-post">
+                <a href="~/Product/Detail/@item.ProductId">
+                    <img src="~/images/items/@item.Avatar" class="card-img-top">
+                </a>
 
-			<div class="card-body">
-					<div class="">
-						<a class="badge badge-success text-uppercase font-weight-semi-bold p-2 mr-2" href="~/Category/Index/@item.CategoryId">@item.Category.Name</a>					
-					</div>
-					<a href="~/Product/Detail/@item.ProductId">
-						<h6 class="title" id="ellipsisTitle">@item.Name</h6>
-					</a> 
-					<p class="small text-uppercase text-muted" id="ellipsisTitle">@item.ShortDescription</p>
-			</div>
-		</article> <!-- card.// -->				
-	</div> <!-- col.// -->						
-
-	}	
-	<style>
-		#ellipsisTitle {
-			padding-right:5px;
-			max-height: 50px;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			-webkit-line-clamp: 2;
-			display: -webkit-box;
-			-webkit-box-orient: vertical;
-			width: 200px
-		}
-	</style>
+                <div class="card-body">
+                    <div class="">
+                        <a class="badge badge-success text-uppercase font-weight-semi-bold p-2 mr-2" href="~/Category/Index/@item.CategoryId">@item.Category.Name</a>
+                    </div>
+                    <a href="~/Product/Detail/@item.ProductId">
+                        <h6 class="title" id="ellipsisTitle">@item.Name</h6>
+                    </a>
+                    <p class="small text-uppercase text-muted" id="ellipsisTitle">@item.ShortDescription</p>
+                </div>
+            </article> <!-- card.// -->
+        </div> <!-- col.// -->
+    }
+    <style>
+        #ellipsisTitle {
+            padding-right: 5px;
+            max-height: 50px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 2;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            width: 200px
+        }
+    </style>
 </div>
 
 
-			

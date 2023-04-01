@@ -13,7 +13,7 @@ namespace web_Aqua.Controllers
         {
             _contextAccessor = httpContextAccessor;
         }
-
+        // load 
         public IActionResult Index()
         {
             int? userID = _contextAccessor.HttpContext.Session.GetInt32("UserId");
@@ -29,6 +29,8 @@ namespace web_Aqua.Controllers
             }
            
         }
+
+        // xem chi tiết
         public IActionResult Detail(int orderId)
         {
             if (orderId == null)
@@ -43,6 +45,9 @@ namespace web_Aqua.Controllers
             objHomeModel.listProduct = db_Context.Products.ToList();
             objHomeModel.listOrderDetail = db_Context.OrderDetails.ToList();
 
+            objHomeModel.order = db_Context.Orders.Where(o => o.OrderId == orderId).FirstOrDefault();
+            int? userid = objHomeModel.order.UserId;
+            objHomeModel.user = db_Context.Users.Where(o => o.UserId == userid).FirstOrDefault();
 
             objHomeModel.listOrderDetailFull = (from d in objHomeModel.listOrderDetail
 

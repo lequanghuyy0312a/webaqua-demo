@@ -73,7 +73,8 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+            <tr>
+
                 <td style=" text-align: center;">
                     <div>
                         <img class="zoom"
@@ -100,7 +101,7 @@
                 @Html.DisplayFor(modelItem => item.CreateOnUtc)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UserID)
+                    @Html.DisplayFor(modelItem => item.User.FirstName )
             </td>
                 @{
                     bool? hienThiweb = item.ShowOnHomePage;

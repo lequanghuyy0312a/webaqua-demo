@@ -9,6 +9,8 @@ namespace web_Aqua.Controllers
     {
 
         db_aquaponicsContext db_Context = new db_aquaponicsContext();
+
+        //load view chính sách và điều khoản
         public IActionResult Policy(int? ID)
         {
             HomeModel model = new HomeModel();
@@ -25,7 +27,7 @@ namespace web_Aqua.Controllers
             return View(model);
         }
 
-
+        // load view liên hệ
         public IActionResult Contact()
         {
             var contact = db_Context.ContactAndPolicies.Where(c => c.KeyWord == "Contact").FirstOrDefault();

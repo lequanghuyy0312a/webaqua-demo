@@ -67,16 +67,16 @@
                                                      class="img-fluid" style="width:80px; height:80px;" >
                                         </div>
                                         <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
-                                            <p class="text-muted mb-0">@item.Product.Name</p>
+                                            <p class=" mb-0">@item.Product.Name</p>
                                         </div>
                                         <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
-                                            <p class="text-muted mb-0 ">@item.Quantity</p>
+                                            <p class=" mb-0 ">@item.Quantity</p>
                                         </div>
                                         <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                                <p class="text-muted mb-0 ">Giá: @(_price.ToString("n0"))</p>
+                                                <p class=" mb-0 ">Giá: @(_price.ToString("n0"))</p>
                                         </div>
                                         <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
-                                            <p class="text-muted mb-0 ">Thành tiền: @(thanhtien.ToString("n0")) </p>
+                                            <p class=" mb-0 ">Thành tiền: @(thanhtien.ToString("n0")) </p>
                                         </div>
 
                                     </div>
@@ -109,12 +109,12 @@
                         </div>
 
                         <div class="d-flex justify-content-between pt-2">
-                            <p class="text-muted mb-0">Mã đơn hàng: --------</p>
+                                <p class="text-muted mb-0">Mã đơn hàng: @Model.order.Name <p>
                             <p class="text-muted mb-0"><span class="fw-bold me-4">Discount</span> -10%</p>
                         </div>
 
                         <div class="d-flex justify-content-between">
-                            <p class="text-muted mb-0">Ngày đặt hàng: -----</p>
+                                <p class="text-muted mb-0">Ngày đặt hàng: @Model.order.CreatedOnUtc </p>
                             <p class="text-muted mb-0"><span class="fw-bold me-4">Đã bao gồm</span> VAT </p>
                         </div>
 

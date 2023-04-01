@@ -34,10 +34,10 @@
     </div>
     <div class="bg-white border border-top-0 p-3">
 
-        @foreach(var item in Model.listBlog.OrderByDescending(o=>o.CreateOnUtc).Take(4))
+        @foreach (var item in Model.listBlog.OrderByDescending(o => o.CreateOnUtc).Take(4))
         {
             <div class="d-flex align-items-center bg-white mb-4" style="height:110px;">
-                <div >
+                <div>
                     <a href="~/Blog/Detail/@item.BlogID"> <img class="img-fluid " style="width:200px;height:90px" src="~/images/thumbnails/@item.Thumbnail" alt="ảnh bìa"> </a>
                 </div>
                 <div class=" p-3 w-100  d-flex flex-column justify-content-center border border-left-0">
@@ -49,7 +49,7 @@
                 </div>
             </div>
         }
-       
+
 
     </div>
 </div>
@@ -62,21 +62,20 @@
         @foreach (var item in Model.listBlog.OrderBy(o => o.CreateOnUtc).Take(4))
         {
             <div class="d-flex align-items-center bg-white mb-4" style="height: 110px;">
-                <div >
+                <div>
 
                     <a href="~/Blog/Detail/@item.BlogID"> <img class="img-fluid" style="width:200px;height:90px" src="~/images/thumbnails/@item.Thumbnail" alt="ảnh bìa"> </a>
                 </div>
 
                 <div class=" p-3 w-100  px-3 d-flex flex-column justify-content-center border border-left-0">
                     <div class="mb-2">
-                        <a href="~/Category/Index/@item.CategoryID" class="badge badge-success text-uppercase font-weight-semi-bold p-1 mr-2 text-white" >@item.Category.Name</a>
-                            <a class="text-body" href=""><small>@item.CreateOnUtc.Value.ToString("dd MMMM yyyy")</small></a>
+                        <a href="~/Category/Index/@item.CategoryID" class="badge badge-success text-uppercase font-weight-semi-bold p-1 mr-2 text-white">@item.Category.Name</a>
+                        <a class="text-body" href=""><small>@item.CreateOnUtc.Value.ToString("dd MMMM yyyy")</small></a>
                     </div>
                     <a id="ellipsisTitlePartial" class="h6 m-0 text-secondary  " href="~/Blog/Detail/@item.BlogID">@item.Title</a>
                 </div>
             </div>
         }
-
     </div>
 </div>
 
@@ -105,18 +104,17 @@
     </div>
     <div class="bg-white border border-top-0 p-3">
         <div class="d-flex flex-wrap m-n1">
-            @foreach(var item in Model.listCategory){
+            @foreach (var item in Model.listCategory)
+            {
                 <a href="~/Product/Category/@item.CategoryId" class="btn btn-sm btn-outline-secondary m-1">@item.Name</a>
             }
-           
         </div>
     </div>
 </div>
 <!-- Tags End -->
 <style>
     #ellipsisTitlePartial {
-        padding:5px;
-
+        padding: 5px;
         max-height: 45px;
         overflow: hidden;
         text-overflow: ellipsis;

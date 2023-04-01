@@ -7,7 +7,7 @@
 }
 
 @section Styles
-{
+    {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs4.min.css" rel="stylesheet">
 }
 <form method="post" enctype="multipart/form-data" asp-controller="Blogs" asp-action="AddOrEdit" class="bg-white">
@@ -24,105 +24,103 @@
         </div>
     }
     <hr color="#18b616" />
-        <div class="card-body rounded">
-            <dl>
+    <div class="card-body rounded">
+        <dl>
             <input type="hidden" asp-for="BlogID" class="form-control" />
             <input type="hidden" asp-for="@Model.Thumbnail" class="form-control" />
             <input type="hidden" asp-for="CreateOnUtc" class="form-control" />
 
 
-                <div class="row">
-                    <div class="form-group col-sm-6">
-                        <div class="form-group col-sm-12">
-                            <div class="row">
-                                <div class="form-group col-sm-4">
-                                    <label asp-for="@Model.BlogID"></label>
-                                    <input type="text" class="form-control col-sm-9" asp-for="@Model.BlogID " disabled />
-                                </div>
-                                <div class="form-group col-sm-4">
-                                    <label asp-for="@Model.UserID"></label>
-                                    <input type="text" class="form-control col-sm-9" asp-for="@Model.UserID" />
-                                </div>
-                                <div class="form-group col-sm-4">
-                                    <label asp-for="@Model.CreateOnUtc"></label>
-                                    <input type="text" class="form-control col-sm-9" asp-for="@Model.CreateOnUtc" disabled value="" />
-                                </div>
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <div class="form-group col-sm-12">
+                        <div class="row">
+                            <div class="form-group col-sm-4">
+                                <label asp-for="@Model.BlogID"></label>
+                                <input type="text" class="form-control col-sm-9" asp-for="@Model.BlogID " disabled />
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label asp-for="@Model.UserID"></label>
+                                <input type="text" class="form-control col-sm-9" asp-for="@Model.User.FirstName" disabled />
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label asp-for="@Model.CreateOnUtc"></label>
+                                <input type="text" class="form-control col-sm-9" asp-for="@Model.CreateOnUtc" disabled />
                             </div>
                         </div>
-                        <div class="form-group col-sm-12">
-                            <div class="row">
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <div class="row">
 
-                                <div class="form-group col-sm-4">
-                                    <label asp-for="@Model.CategoryID"></label>
+                            <div class="form-group col-sm-4">
+                                <label asp-for="@Model.CategoryID"></label>
                                 @Html.DropDownListFor(m=>m.CategoryID,ViewBag.listCategory as SelectList, new {@class = "form-control col-sm-9"} )
 
-                                </div>
-                            
-                                <div class="form-group col-sm-4">
-                                    <label asp-for="@Model.Country"></label>
-                                    @Html.DropDownListFor(m=>m.Country, ViewBag.listBlogZone as SelectList, new {@class = "form-control col-sm-9"} )
-                                </div>
-                                <div class="form-group col-sm-4">
-                                    <label asp-for="@Model.ShowOnHomePage"></label>
-                                    @Html.DropDownListFor(m=>m.ShowOnHomePage, ViewBag.listBlogShow as SelectList,  new {@class = "form-control col-sm-9"} )
-                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-4">
+                                <label asp-for="@Model.Country"></label>
+                                @Html.DropDownListFor(m=>m.Country, ViewBag.listBlogZone as SelectList, new {@class = "form-control col-sm-9"} )
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label asp-for="@Model.ShowOnHomePage"></label>
+                                @Html.DropDownListFor(m=>m.ShowOnHomePage, ViewBag.listBlogShow as SelectList,  new {@class = "form-control col-sm-9"} )
                             </div>
                         </div>
-                        <div class="form-group col-sm-12">
-                            <div class="row">
-                                <label asp-for="@Model.Title"></label>
-                                <textarea class="form-control" rows="2" asp-for="@Model.Title"></textarea>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <div class="row">
+                            <label asp-for="@Model.Title"></label>
+                            <textarea class="form-control" rows="2" asp-for="@Model.Title"></textarea>
                             <span asp-validation-for="Title" class="text-danger"> </span>
 
-                            </div>
-                            <div class="row mt-2">
-                                <label asp-for="@Model.Description"></label>
-                                <textarea class="form-control" rows="2" asp-for="@Model.Description"></textarea>
+                        </div>
+                        <div class="row mt-2">
+                            <label asp-for="@Model.Description"></label>
+                            <textarea class="form-control" rows="2" asp-for="@Model.Description"></textarea>
                             <span asp-validation-for="Description" class="text-danger"> </span>
 
-                            </div>
-                        </div>                                         
+                        </div>
                     </div>
+                </div>
 
-                    <div class="form-group col-sm-6 text-center">
-                       
-                            @if (Model.BlogID > 0)
-                            {
-                                <img id="imgViewer" class="profile-user-img img-fluid mt-2"
-                                     style=" max-width:360px;  max-height:360px; margin-bottom:10px; width:100%; height:auto;"
-                                     src="~/images/thumbnails/@Model.Thumbnail"
-                                     alt="thumbnail" />
-                            }
-                            else
-                            {
-                                <img id="imgViewer" class="profile-user-img img-fluid mt-2"
-                                     style=" max-width:360px;  max-height:360px; margin-bottom:10px; width:100%; height:auto;"
+                <div class="form-group col-sm-6 text-center">
+
+                    @if (Model.BlogID > 0)
+                    {
+                        <img id="imgViewer" class="profile-user-img img-fluid mt-2"
+                             style=" max-width:360px;  max-height:360px; margin-bottom:10px; width:100%; height:auto;"
+                             src="~/images/thumbnails/@Model.Thumbnail"
+                             alt="thumbnail" />
+                    }
+                    else
+                    {
+                        <img id="imgViewer" class="profile-user-img img-fluid mt-2"
+                             style=" max-width:360px;  max-height:360px; margin-bottom:10px; width:100%; height:auto;"
                              src="~/images/items/NoImage.jpg"
-                                     alt="thumbnail" />
-                            }
-                             <div class="col text-center">
-                            <div class="custom-file text-center" style="max-width:300px">
-                                    <input class="custom-file-input "
-                                           asp-for="ImageUpload"
-                                          
-                                           id="FLFrontImage"
-                                           type="file" name="files"
-                                           multiple
-                                           onchange="document.getElementById('imgViewer').src = window.URL.createObjectURL(this.files[0])" />
-                                    <label asp-for="ImageUpload" for="FLFrontImage" class="custom-file-label">@Model.Thumbnail</label>
-                                </div>
-                            </div>
-
+                             alt="thumbnail" />
+                    }
+                    <div class="col text-center">
+                        <div class="custom-file text-center" style="max-width:300px">
+                            <input class="custom-file-input "
+                                   asp-for="ImageUpload"
+                                   id="FLFrontImage"
+                                   type="file" name="files"
+                                   multiple
+                                   onchange="document.getElementById('imgViewer').src = window.URL.createObjectURL(this.files[0])" />
+                            <label asp-for="ImageUpload" for="FLFrontImage" class="custom-file-label">@Model.Thumbnail</label>
+                        </div>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="@Model.BlogContent"></label>
-                    <textarea id="compose-textarea" class="form-control compose-textarea" asp-for="@Model.BlogContent" multi" > </textarea>
-                     <span asp-validation-for="BlogContent" class="text-danger"> </span>
 
                 </div>
-            </dl>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.BlogContent"></label>
+                <textarea id="compose-textarea" class="form-control compose-textarea" asp-for="@Model.BlogContent" multi"> </textarea>
+                <span asp-validation-for="BlogContent" class="text-danger"> </span>
+            </div>
+        </dl>
         <div class="form-group row mx-2 mt-3 text-center">
             <div class="col-sm-12" style="font-size:25px">
 
@@ -140,17 +138,17 @@
                 </a>
             </div>
         </div>
-        </div>
+    </div>
 </form>
 
 @section Scripts2﻿
-{
+    {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote.min.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
             $("#compose-textarea").summernote({
-               
+
                 minHeight: 200,
                 maxHeight: 600,
                 codemirror: {
@@ -159,8 +157,7 @@
                 callbacks: {
                     onImageUpload: function (files1) {
                         for (var i = 0; i < files1.length; i++) {
-
-                            uploadImage(files1[i]);
+                            uploadImageBlog(files1[i]);
                         }
                     }
                 },
@@ -178,18 +175,17 @@
                 ],
             });
         });
-        function uploadImage(fileImg) {
+        function uploadImageBlog(fileImg) {
             var formData = new FormData();
-            formData.append("uploadedFiles", fileImg);
+            formData.append("UploadFileBlog", fileImg);
             $.ajax({
                 data: formData,
                 type: "POST",
-                url: '@Url.RouteUrl("imageupload")',
+                url: '@Url.RouteUrl("imageuploadblog")',
                 cache: false,
                 contentType: false,
-
                 processData: false,
-                success: function (FileUrl) {                   
+                success: function (FileUrl) {
                     var imgNode = document.createElement('img');
                     imgNode.src = FileUrl;
                     $("#compose-textarea").summernote('insertNode', imgNode);
@@ -198,6 +194,6 @@
                     alert(data.responseText);
                 }
             });
-        }    
+        }
     </script>
 }

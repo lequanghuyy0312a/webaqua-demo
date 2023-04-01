@@ -13,7 +13,7 @@
             <a href="~/Cart/Index" class="widget-view">
                 <div class="icon-area">
                     <i class="fa fa-shopping-cart"></i>
-                    @if(cart.Count > 0)
+                    @if (cart.Count > 0)
                     {
                         <span class="notify">@cart.Count</span>
                     }
@@ -22,17 +22,17 @@
             </a>
         </div>
     }
-        else 
-        {
-            <div class="nav-item">
-                <a href="~/Cart/Index" class="widget-view">
-                    <div class="icon-area">
-                        <i class="fa fa-shopping-cart"></i>
-                    </div>
-                    <small class="text"> Giỏ hàng </small>
-                </a>
-            </div>
+    else
+    {
+        <div class="nav-item">
+            <a href="~/Cart/Index" class="widget-view">
+                <div class="icon-area">
+                    <i class="fa fa-shopping-cart"></i>
+                </div>
+                <small class="text"> Giỏ hàng </small>
+            </a>
+        </div>
 
-        }
+    }
 }
 

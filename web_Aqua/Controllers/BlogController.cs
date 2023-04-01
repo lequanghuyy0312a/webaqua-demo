@@ -19,28 +19,9 @@ namespace web_Aqua.Controllers
 			_webHostEnvironment = webHostEnvironment;
 		}
 
+		// load view
         public IActionResult Index(int? page, int? categoryBlog)
 		{
-			//var listBlog = new List<Blog>();
-
-			//if (categoryBlog > 0)
-			//{
-			//	listBlog = db_Context.Blogs.Include(c => c.Category).Include(u => u.User).Where(ca => ca.CategoryID == categoryBlog).ToList();
-			//	ViewBag.listBlogCount = listBlog.Count;
-			//}
-			//else
-			//{
-			//	listBlog = db_Context.Blogs.Include(c => c.Category).Include(u => u.User).ToList();
-			//	ViewBag.listBlogCount = listBlog.Count;
-			//}
-
-			////page = page < 1 ? 1 : page;
-			////int pagesize = 5;
-			////int pageNumber = (page ?? 1);
-			//listBlog = listBlog.OrderByDescending(n => n.BlogID).ToList();
-
-			////return View(listBlog.ToPagedList(pageNumber, pagesize));
-			//return View(listBlog);
 			HomeModel objHomeModel = new HomeModel();
 			objHomeModel.blog = db_Context.Blogs.Include(n => n.Category).Include(u => u.User).FirstOrDefault();
 			objHomeModel.listBlog = db_Context.Blogs.Include(n => n.Category).Include(u => u.User).ToList();
@@ -51,7 +32,8 @@ namespace web_Aqua.Controllers
 			return View(objHomeModel);
 		}
 
-		public IActionResult Detail(int? ID, int categoryID)
+		// load view xem chi tiết
+		public IActionResult Detail(int? ID)
 		{
 			HomeModel objHomeModel = new HomeModel();
 			objHomeModel.blog = db_Context.Blogs.Include(n => n.Category).Include(u => u.User).Where(n => n.BlogID == ID).FirstOrDefault();

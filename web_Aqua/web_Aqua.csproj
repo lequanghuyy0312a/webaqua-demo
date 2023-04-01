@@ -1971,6 +1971,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Views\Home\" />
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="wwwroot\images\blogs\" />
     <Folder Include="wwwroot\images\categories\" />
     <Folder Include="wwwroot\images\importproducts\" />

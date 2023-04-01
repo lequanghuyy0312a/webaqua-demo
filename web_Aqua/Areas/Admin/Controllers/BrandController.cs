@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace web_Aqua.Areas.Admin.Controllers
 {
-	[Authorize(Roles = "Admin")]
-	public class BrandController : Controller
-	{    
+    [Authorize(Roles = "Admin")]
+    public class BrandController : Controller
+    {
 
         db_aquaponicsContext db_Context = new db_aquaponicsContext();
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -36,7 +36,7 @@ namespace web_Aqua.Areas.Admin.Controllers
                 SearchString = currentFilter;
             }
 
-            if (!string.IsNullOrEmpty(SearchString) )
+            if (!string.IsNullOrEmpty(SearchString))
             {
                 listBrand = db_Context.Brands.Where(n => n.Company.Contains(SearchString)).ToList();
                 ViewBag.listBrandCount = db_Context.Brands.Where(n => n.Company.Contains(SearchString)).ToList().Count();
@@ -201,7 +201,7 @@ namespace web_Aqua.Areas.Admin.Controllers
         {
             ListtoDataTableConverter converter = new ListtoDataTableConverter();
             Common objCommon = new Common();
-            
+
 
             //drop menu ẩn:0 / hiện:1
             List<Show> listBrandShow = new List<Show>();
@@ -217,7 +217,7 @@ namespace web_Aqua.Areas.Admin.Controllers
 
             DataTable dtBrandShow = converter.ToDataTable(listBrandShow);
             ViewBag.listBrandShow = objCommon.ToSelectList(dtBrandShow, "ID", "Name");
-         
+
 
         }
 

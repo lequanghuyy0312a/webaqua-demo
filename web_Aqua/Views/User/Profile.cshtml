@@ -48,7 +48,15 @@
                 <div class="card-header">
                     <div class="row d-flex">
                         <h3 class="card-title mr-auto p-2 ">About Me</h3>
-                        <a class=" mt-2 p-2" asp-action="EditProfile" asp-controller="User" asp-route-id="@Model.UserId"> <h5> <u> Sửa thông tin</u></h5> </a>
+                        @if(User.IsInRole("Admin") == true)
+                        {
+                            <a class =" mt-2 p-2" href="~/Admin/Home/Index"> <h5> <u> Đến trang Quản Lý</u></h5> </a>
+                        }
+                        else
+                        {
+                            <a class=" mt-2 p-2" asp-action="EditProfile" asp-controller="User" asp-route-id="@Model.UserId"> <h5> <u> Sửa thông tin</u></h5> </a>
+
+                        }
                     </div>
                    
                 </div>
