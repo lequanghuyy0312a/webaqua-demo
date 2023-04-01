@@ -9,5 +9,5 @@ Aquaponics - Đồng Nai (project tự học)
 - Công nghệ sử dụng:
   - ASP.NET MVC, C#, Entity Framework, SQL
 
-- Demo: youtu.be/JxTHXaVYtH0
+- Demo: https://youtu.be/JxTHXaVYtH0
 - Database: https://drive.google.com/file/d/1P5mmjUSji3As3iV5CfhqAhck2D1fRLuz/view?usp=share_link
